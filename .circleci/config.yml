@@ -18,7 +18,7 @@ jobs:
       - node/install-packages:
           pkg-manager: yarn
       - run: openssl aes-256-cbc -d -pbkdf2 -in encrypt.ts.enc -out src/encrypt.ts -k $DECRYPT_KEY
-      - run: CI=false yarn build
+      - run: yarn build
       - run: |
           tar Jcvf public.tar.xz public/
           ssh-keyscan -t rsa cloud.drjchn.com >> ~/.ssh/known_hosts
