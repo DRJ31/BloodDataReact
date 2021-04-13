@@ -16,7 +16,7 @@ const { Title } = Typography;
 const App: FC = () => (
   <div className="App">
       <Header style={{ textAlign: "left" }}>
-          <Title style={{ color: "white", lineHeight: "2em" }} level={2}>Blood Data</Title>
+          <Title style={{ color: "white", lineHeight: "2.7em" }} level={3}>Blood Data</Title>
       </Header>
       <Content style={{ padding: "2em" }}>
           <Router>
