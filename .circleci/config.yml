@@ -20,9 +20,9 @@ jobs:
       - run: openssl aes-256-cbc -d -pbkdf2 -in encrypt.ts.enc -out src/encrypt.ts -k $DECRYPT_KEY
       - run: yarn build
       - run: |
-          tar Jcvf public.tar.xz public/
+          tar Jcvf build.tar.xz build/
           ssh-keyscan -t rsa cloud.drjchn.com >> ~/.ssh/known_hosts
-          scp public.tar.xz ubuntu@cloud.drjchn.com:~
+          scp build.tar.xz ubuntu@cloud.drjchn.com:~
           ssh ubuntu@cloud.drjchn.com < deploy.sh
 workflows:
   version: 2
