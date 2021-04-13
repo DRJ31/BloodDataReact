@@ -126,7 +126,7 @@ class TablePage extends React.Component {
                 window.localStorage.removeItem("username");
                 this.setState({ loading: false });
                 if (err.response) {
-                    message.error(err.response.data.message);
+                    message.warning(err.response.data.message);
                 }
             })
     }
@@ -149,11 +149,11 @@ class TablePage extends React.Component {
                     <TabPane tab="图表" key="2">
                         <Skeleton active loading={loading}>
                             <Title level={2}>血小板</Title>
-                            <DateChart data={data} k="platelets" min={120} /><br/>
+                            <DateChart data={data} k="platelets" min={120} name="血小板" /><br/>
                             <Title level={2}>血红蛋白</Title>
-                            <DateChart data={data} k="hemoglobin" min={130} /><br/>
+                            <DateChart data={data} k="hemoglobin" min={130} name="血红蛋白" /><br/>
                             <Title level={2}>白细胞</Title>
-                            <DateChart data={data} k="leukocyte" min={3.5} /><br/>
+                            <DateChart data={data} k="leukocyte" min={3.5} name="白细胞" /><br/>
                         </Skeleton>
                     </TabPane>
                 </Tabs>

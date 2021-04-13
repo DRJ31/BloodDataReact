@@ -27,7 +27,7 @@ export function DateLineChart(props) {
 }
 
 export function DateChart(props) {
-    const { data, k, min } = props;
+    const { data, k, min, name } = props;
     data.sort((a, b) => dayjs(a.date).unix() - dayjs(b.date).unix());
     data.forEach((v, i) => {
         data[i].date = dayjs(v.date).format('YYYY-MM-DD');
@@ -69,7 +69,12 @@ export function DateChart(props) {
                 lineDash: [2, 2],
               },
             },
-        ]
+        ],
+        tooltip: {
+            formatter: (datum) => {
+              return { name, value: datum[k] };
+            },
+          }
     };
 
     return <Line {...config} />

@@ -9,9 +9,9 @@ const layout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 8 },
 };
-const tailLayout = {
-    wrapperCol: { offset: 5, span: 8 },
-};
+// const tailLayout = {
+//     wrapperCol: { offset: 5, span: 8 },
+// };
 
 class LoginPage extends React.Component {
     state = {
@@ -38,7 +38,7 @@ class LoginPage extends React.Component {
                 message.error(err.response.data.message);
             }
             else {
-                message.error("Login Failed");
+                message.error("登录失败");
             }
         })
     }
@@ -76,7 +76,7 @@ class LoginPage extends React.Component {
                 >
                     <Input.Password />
                 </Form.Item>
-                <Form.Item {...tailLayout}>
+                <Form.Item>
                     <Button type="primary" htmlType="submit" loading={loading}>Login</Button>
                 </Form.Item>
             </Form>
