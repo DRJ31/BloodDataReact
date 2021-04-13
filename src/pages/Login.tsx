@@ -24,7 +24,7 @@ class LoginPage extends React.Component {
 
         this.setState({ loading: true });
 
-        axios.post("http://localhost:5000/api/login", {
+        axios.post("/api/login", {
             username,
             password
         }).then(response => {
