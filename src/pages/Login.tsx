@@ -2,6 +2,7 @@ import { Form, Input, Button, message } from 'antd';
 import axios from 'axios';
 import React from 'react';
 import { Redirect } from 'react-router';
+import encrypt from '../encrypt';
 
 axios.defaults.withCredentials = true;
 
@@ -26,7 +27,7 @@ class LoginPage extends React.Component {
 
         axios.post("/api/login", {
             username,
-            password
+            password: encrypt(password)
         }).then(response => {
             const { username, message: msg } = response.data;
             window.localStorage.setItem("username", username);
