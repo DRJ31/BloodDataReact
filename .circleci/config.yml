@@ -1,0 +1,34 @@
+
+version: 2.1
+
+orbs:
+  node: circleci/node@4.2.1
+
+jobs:
+  build:
+    executor:
+      name: node/default
+      tag: 'lts'
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - "f6:f7:d9:cf:34:03:0e:97:c1:d4:f3:88:d4:26:8f:95"
+      - node/install-yarn
+      - node/install-packages:
+          pkg-manager: yarn
+      - run: openssl aes-256-cbc -d -pbkdf2 -in encrypt.ts.enc -out src/encrypt.ts -k $DECRYPT_KEY
+      - run: CI=false yarn build
+      - run: |
+          tar Jcvf public.tar.xz public/
+          ssh-keyscan -t rsa cloud.drjchn.com >> ~/.ssh/known_hosts
+          scp public.tar.xz ubuntu@cloud.drjchn.com:~
+          ssh ubuntu@cloud.drjchn.com < deploy.sh
+workflows:
+  version: 2
+  master_build:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: master
