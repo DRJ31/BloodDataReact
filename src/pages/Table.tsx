@@ -4,37 +4,12 @@ import React from 'react';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
-import { Line } from '@ant-design/charts';
+import { DateChart } from '../Components/DateChart';
 
 axios.defaults.withCredentials = true;
 
 const { TabPane } = Tabs;
 const { Title } = Typography;
-
-function DateLineChart(props: { data: any | null, k: string }) {
-    const { data, k } = props;
-    data.sort((a: any, b: any) => dayjs(a.date).unix() - dayjs(b.date).unix());
-    data.forEach((v: any, i: number) => {
-        data[i].date = dayjs(v.date).format('YYYY-MM-DD');
-    });
-
-    const config = {
-        data,
-        height: 400,
-        xField: 'date',
-        yField: k,
-        point: {
-          size: 5,
-          shape: 'diamond',
-        },
-        slider: {
-            start: 0.7,
-            end: 1.0,
-        }
-      };
-
-    return <Line {...config} />
-}
 
 function renderData(data: string | number, range: [number, number]) {
     if (typeof data == "string" && data.length === 0)
@@ -61,62 +36,72 @@ const columns = [
         title: '日期',
         dataIndex: 'date',
         key: 'date',
+        fixed: true,
+        width: 120,
         sorter: (a: any, b: any) => dayjs(a.date).unix() - dayjs(b.date).unix(),
         render: (text: string) => dayjs(text).format('YYYY-MM-DD')
     },
     {
-        title: '白细胞',
+        title: <div>白细胞<br/>[3.5,9.5]</div>,
         dataIndex: 'leukocyte',
-        key: 'date',
+        key: 'leukocyte',
+        width: 130,
         sorter: (a: any, b: any) => a.leukocyte - b.leukocyte,
         render: (text: string | number) => renderData(text, [3.5, 9.5])
     },
     {
-        title: '血红蛋白',
+        title: <div>血红蛋白<br/>[130,175]</div>,
         dataIndex: 'hemoglobin',
-        key: 'date',
+        key: 'hemoglobin',
+        width: 130,
         sorter: (a: any, b: any) => a.hemoglobin - b.hemoglobin,
         render: (text: string | number) => renderData(text, [130, 175])
     },
     {
-        title: '血小板',
+        title: <div>血小板<br/>[120,350]</div>,
         dataIndex: 'platelets',
-        key: 'date',
+        key: 'platelets',
+        width: 130,
         sorter: (a: any, b: any) => a.platelets - b.platelets,
         render: (text: string | number) => renderData(text, [125, 350])
     },
     {
-        title: '单核细胞',
+        title: <div>单核细胞<br/>[0.1,0.6]</div>,
         dataIndex: 'monocyte',
-        key: 'date',
+        key: 'monocyte',
+        width: 130,
         sorter: (a: any, b: any) => a.monocyte - b.monocyte,
         render: (text: string | number) => renderData(text, [0.1, 0.6])
     },
     {
-        title: '单核细胞比例',
+        title: <div>单核细胞比例<br/>[3,10]</div>,
         dataIndex: 'monocyteP',
-        key: 'date',
+        key: 'monocyteP',
+        width: 130,
         sorter: (a: any, b: any) => a.monocyteP - b.monocyteP,
         render: (text: string | number) => renderData(text, [3, 10])
     },
     {
-        title: '中性粒细胞',
+        title: <div>中性粒细胞<br/>[1.8,6.3]</div>,
         dataIndex: 'neutrophil',
-        key: 'date',
+        key: 'neutrophil',
+        width: 130,
         sorter: (a: any, b: any) => a.neutrophil - b.neutrophil,
         render: (text: string | number) => renderData(text, [1.8, 6.3])
     },
     {
-        title: '网织红细胞',
+        title: <div>网织红细胞<br/>[24,84]</div>,
         dataIndex: 'reticulocyte',
-        key: 'date',
+        key: 'reticulocyte',
+        width: 130,
         sorter: (a: any, b: any) => a.reticulocyte - b.reticulocyte,
         render: (text: string | number) => renderData(text, [24, 84])
     },
     {
         title: '备注',
         dataIndex: 'remark',
-        key: 'date'
+        key: 'remark',
+        width: 130
     }
 ];
 
@@ -158,17 +143,17 @@ class TablePage extends React.Component {
                 <Tabs defaultActiveKey="1">
                     <TabPane tab="数据" key="1">
                         <Skeleton active loading={loading}>
-                            <Table dataSource={data} columns={columns} />
+                            <Table dataSource={data} columns={columns} scroll={{ x: 1000 }} sticky />
                         </Skeleton>
                     </TabPane>
                     <TabPane tab="图表" key="2">
                         <Skeleton active loading={loading}>
                             <Title level={2}>血小板</Title>
-                            <DateLineChart data={data} k="platelets" /><br/>
+                            <DateChart data={data} k="platelets" min={120} /><br/>
                             <Title level={2}>血红蛋白</Title>
-                            <DateLineChart data={data} k="hemoglobin" /><br/>
+                            <DateChart data={data} k="hemoglobin" min={130} /><br/>
                             <Title level={2}>白细胞</Title>
-                            <DateLineChart data={data} k="leukocyte" /><br/>
+                            <DateChart data={data} k="leukocyte" min={3.5} /><br/>
                         </Skeleton>
                     </TabPane>
                 </Tabs>
