@@ -1,5 +1,5 @@
 import { Form, Input, Button, message } from 'antd';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import { useState } from 'react';
 import DatePicker from '../components/DatePicker';
 import axios from 'axios';
@@ -14,6 +14,7 @@ const layout = {
 const FormPage = () => {
     const [loading, setLoading] = useState(false);
     const [form] = Form.useForm();
+    const history = useHistory();
 
     const onFinish = (values: any) => {
         setLoading(true);
@@ -27,6 +28,8 @@ const FormPage = () => {
             setLoading(false);
             if (err.response && err.response.status) {
                 message.warning(err.response.data.message);
+                if (err.response.status === 403)
+                    history.push("/login");
             }
             else {
                 message.error("提交错误");

@@ -1,12 +1,13 @@
 import React, { FC, useState, useEffect } from 'react';
 import {
     useLocation,
+    useHistory,
     Switch,
     Route,
     Link,
 } from 'react-router-dom';
 import { Layout, Typography, Result, Button, Menu, Dropdown, message } from 'antd';
-import { UserOutlined, EditOutlined, LogoutOutlined } from '@ant-design/icons';
+import { UserOutlined, EditOutlined, LogoutOutlined, DownOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import './App.css';
 import LoginPage from './pages/Login';
@@ -20,6 +21,7 @@ const whitelist = ["/", "/input"];
 const App: FC = () => {
     const { pathname } = useLocation();
     const [show, setShow] = useState(false);
+    const history = useHistory();
 
     useEffect(() => {
         setShow(whitelist.includes(window.location.pathname));
@@ -31,13 +33,15 @@ const App: FC = () => {
             axios.post("/api/logout", { username })
             .then(response => {
                 message.success(response.data.message);
-                window.location.href = "/login";
+                window.localStorage.removeItem("username");
+                history.push("/login");
             })
             .catch(err => {
                 if (err.response && err.response.data.message) {
                     message.error(err.response.data.message);
                 }
-                window.location.href = "/login";
+                window.localStorage.removeItem("username");
+                history.push("/login");
             })
         }
     }
@@ -60,7 +64,9 @@ const App: FC = () => {
                   <Link to="/" style={{ color: "white" }}>Blood Data</Link>
                 </Title>
                 {show && <Dropdown overlay={menu} trigger={['click', 'hover']}>
-                    <UserOutlined style={{ paddingTop: "1em", fontSize: "1.5em", color: "white", float: "right" }} />
+                    <div style={{ fontSize: "1.5em", color: "white", float: "right" }}>
+                        <UserOutlined /> <DownOutlined />
+                    </div>
                 </Dropdown>}
             </Header>
             <Content style={{ padding: "2em", textAlign: "center" }}>
