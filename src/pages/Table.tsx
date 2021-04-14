@@ -4,7 +4,7 @@ import React from 'react';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
-import { DateChart } from '../Components/DateChart';
+import { DateChart } from '../components/DateChart';
 
 axios.defaults.withCredentials = true;
 
@@ -20,7 +20,7 @@ interface ChartData {
 }
 
 interface IState {
-    data: any | null;
+    data?: any;
     loading: boolean;
     chartData: ChartData;
 }
@@ -154,7 +154,6 @@ const columns = [
 
 class TablePage extends React.Component {
     state: IState = {
-        data: null,
         loading: false,
         chartData: chartOptions[0]
     }

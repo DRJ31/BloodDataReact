@@ -1,7 +1,7 @@
 import { Form, Input, Button, message } from 'antd';
 import { Redirect } from 'react-router-dom';
 import { useState } from 'react';
-import DatePicker from '../Components/DatePicker';
+import DatePicker from '../components/DatePicker';
 import axios from 'axios';
 
 axios.defaults.withCredentials = true;
