@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 function findMax(arr, key, rangeMax) {
   let max = rangeMax + 10;
   for (let elem of arr) {
-    if (elem[key] > max) max = elem[key];
+    if (elem[key] > rangeMax) max = elem[key] + 10;
   }
   return max;
 }
