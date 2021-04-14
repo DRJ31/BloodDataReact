@@ -1,4 +1,4 @@
-import { Table, Tabs, message, Skeleton, Statistic, Typography } from "antd";
+import { Table, Tabs, message, Skeleton, Statistic, Typography, Select } from "antd";
 import { Redirect } from "react-router-dom";
 import React from 'react';
 import axios from 'axios';
@@ -10,6 +10,20 @@ axios.defaults.withCredentials = true;
 
 const { TabPane } = Tabs;
 const { Title } = Typography;
+const { Option } = Select;
+
+
+interface ChartData {
+    key: string;
+    name: string;
+    range: [number, number];
+}
+
+interface IState {
+    data: any | null;
+    loading: boolean;
+    chartData: ChartData;
+}
 
 function renderData(data: string | number, range: [number, number]) {
     if (typeof data == "string" && data.length === 0)
@@ -30,6 +44,39 @@ function renderData(data: string | number, range: [number, number]) {
     }
     return data;
 }
+
+const chartOptions: ChartData[] = [
+    {
+        name: "白细胞",
+        key: "leukocyte",
+        range: [3.5, 9.5]
+    },
+    {
+        name: "血红蛋白",
+        key: "hemoglobin",
+        range: [130, 175]
+    },
+    {
+        name: "血小板",
+        key: "platelets",
+        range: [120, 350]
+    },
+    {
+        name: "单核细胞",
+        key: "monocyte",
+        range: [0.1, 0.6]
+    },
+    {
+        name: "单核细胞比例",
+        key: "monocyteP",
+        range: [3, 10]
+    },
+    {
+        name: "中性粒细胞",
+        key: "neutrophil",
+        range: [1.8, 6.3]
+    }
+]
 
 const columns = [
     {
@@ -105,15 +152,11 @@ const columns = [
     }
 ];
 
-interface IState {
-    data: any | null
-    loading: boolean
-}
-
 class TablePage extends React.Component {
     state: IState = {
         data: null,
-        loading: false
+        loading: false,
+        chartData: chartOptions[0]
     }
 
     componentDidMount() {
@@ -131,8 +174,12 @@ class TablePage extends React.Component {
             })
     }
 
+    changeValue = (value: number) => {
+        this.setState({ chartData: chartOptions[value] });
+    }
+
     render() {
-        const { data, loading } = this.state;
+        const { data, loading, chartData } = this.state;
 
         if (!window.localStorage.username) {
             return (<Redirect to="/login" />);
@@ -148,12 +195,13 @@ class TablePage extends React.Component {
                     </TabPane>
                     <TabPane tab="图表" key="2">
                         <Skeleton active loading={loading}>
-                            <Title level={2}>血小板</Title>
-                            <DateChart data={data} k="platelets" min={120} name="血小板" /><br/>
-                            <Title level={2}>血红蛋白</Title>
-                            <DateChart data={data} k="hemoglobin" min={130} name="血红蛋白" /><br/>
-                            <Title level={2}>白细胞</Title>
-                            <DateChart data={data} k="leukocyte" min={3.5} name="白细胞" /><br/>
+                            <Select defaultValue={0} onChange={this.changeValue} style={{ float: "left", width: 130 }}>
+                                {chartOptions.map((val, i) => (
+                                    <Option value={i}>{val.name}</Option>
+                                ))}
+                            </Select><br/>
+                            <Title level={2}>{chartData.name}</Title>
+                            <DateChart data={data} k={chartData.key} range={chartData.range} name={chartData.name} />
                         </Skeleton>
                     </TabPane>
                 </Tabs>
