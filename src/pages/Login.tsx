@@ -14,13 +14,18 @@ const tailLayout = {
     wrapperCol: { span: 24 },
 };
 
+interface IState {
+    redirect: Redirect | null;
+    loading: boolean;
+}
+
 class LoginPage extends React.Component {
-    state = {
+    state: IState = {
         redirect: null,
         loading: false
     }
 
-    onFinish = (values: any): void => {
+    onFinish = (values: any) => {
         const { username, password } = values;
 
         this.setState({ loading: true });
@@ -44,7 +49,7 @@ class LoginPage extends React.Component {
         })
     }
 
-    onFinishFailed = (err: any): void => {
+    onFinishFailed = (err: any) => {
         message.error("Failed: ", err);
     }
 

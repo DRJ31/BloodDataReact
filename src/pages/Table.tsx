@@ -20,7 +20,7 @@ interface ChartData {
 }
 
 interface IState {
-    data?: any;
+    data: any;
     loading: boolean;
     chartData: ChartData;
 }
@@ -29,18 +29,18 @@ function renderData(data: string | number, range: [number, number]) {
     if (typeof data == "string" && data.length === 0)
         return "";
     if (data < range[0]) {
-        return (<Statistic 
+        return <Statistic 
                     value={data} 
                     valueStyle={{ color: "#cf1322", fontSize: "14px" }} 
                     suffix={<ArrowDownOutlined />}
-                />);
+                />;
     }
     else if (data > range[1]) {
-        return (<Statistic 
+        return <Statistic 
                     value={data} 
                     valueStyle={{ color: "#cf1322", fontSize: "14px" }} 
                     suffix={<ArrowUpOutlined />}
-                />);
+                />;
     }
     return data;
 }
@@ -154,6 +154,7 @@ const columns = [
 
 class TablePage extends React.Component {
     state: IState = {
+        data: null,
         loading: false,
         chartData: chartOptions[0]
     }
