@@ -62,9 +62,9 @@ const chartOptions: ChartData[] = [
         range: [120, 350]
     },
     {
-        name: "单核细胞",
-        key: "monocyte",
-        range: [0.1, 0.6]
+        name: "中性粒细胞",
+        key: "neutrophil",
+        range: [1.8, 6.3]
     },
     {
         name: "单核细胞比例",
@@ -72,10 +72,10 @@ const chartOptions: ChartData[] = [
         range: [3, 10]
     },
     {
-        name: "中性粒细胞",
-        key: "neutrophil",
-        range: [1.8, 6.3]
-    }
+        name: "单核细胞",
+        key: "monocyte",
+        range: [0.1, 0.6]
+    },
 ]
 
 const columns = [
@@ -89,7 +89,7 @@ const columns = [
         render: (text: string) => dayjs(text).format('YYYY-MM-DD')
     },
     {
-        title: <div>白细胞<br/>[3.5,9.5]</div>,
+        title: <div>白细胞<br/>[3.5-9.5]</div>,
         dataIndex: 'leukocyte',
         key: 'leukocyte',
         width: 130,
@@ -97,7 +97,7 @@ const columns = [
         render: (text: string | number) => renderData(text, [3.5, 9.5])
     },
     {
-        title: <div>血红蛋白<br/>[130,175]</div>,
+        title: <div>血红蛋白<br/>[130-175]</div>,
         dataIndex: 'hemoglobin',
         key: 'hemoglobin',
         width: 130,
@@ -105,7 +105,7 @@ const columns = [
         render: (text: string | number) => renderData(text, [130, 175])
     },
     {
-        title: <div>血小板<br/>[120,350]</div>,
+        title: <div>血小板<br/>[120-350]</div>,
         dataIndex: 'platelets',
         key: 'platelets',
         width: 130,
@@ -113,23 +113,7 @@ const columns = [
         render: (text: string | number) => renderData(text, [125, 350])
     },
     {
-        title: <div>单核细胞<br/>[0.1,0.6]</div>,
-        dataIndex: 'monocyte',
-        key: 'monocyte',
-        width: 130,
-        sorter: (a: any, b: any) => a.monocyte - b.monocyte,
-        render: (text: string | number) => renderData(text, [0.1, 0.6])
-    },
-    {
-        title: <div>单核细胞比例<br/>[3,10]</div>,
-        dataIndex: 'monocyteP',
-        key: 'monocyteP',
-        width: 130,
-        sorter: (a: any, b: any) => a.monocyteP - b.monocyteP,
-        render: (text: string | number) => renderData(text, [3, 10])
-    },
-    {
-        title: <div>中性粒细胞<br/>[1.8,6.3]</div>,
+        title: <div>中性粒细胞<br/>[1.8-6.3]</div>,
         dataIndex: 'neutrophil',
         key: 'neutrophil',
         width: 130,
@@ -137,7 +121,23 @@ const columns = [
         render: (text: string | number) => renderData(text, [1.8, 6.3])
     },
     {
-        title: <div>网织红细胞<br/>[24,84]</div>,
+        title: <div>单核细胞比例<br/>[3-10]</div>,
+        dataIndex: 'monocyteP',
+        key: 'monocyteP',
+        width: 130,
+        sorter: (a: any, b: any) => a.monocyteP - b.monocyteP,
+        render: (text: string | number) => renderData(text, [3, 10])
+    },
+    {
+        title: <div>单核细胞<br/>[0.1-0.6]</div>,
+        dataIndex: 'monocyte',
+        key: 'monocyte',
+        width: 130,
+        sorter: (a: any, b: any) => a.monocyte - b.monocyte,
+        render: (text: string | number) => renderData(text, [0.1, 0.6])
+    },
+    {
+        title: <div>网织红细胞<br/>[24-84]</div>,
         dataIndex: 'reticulocyte',
         key: 'reticulocyte',
         width: 130,
