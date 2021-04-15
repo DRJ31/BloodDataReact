@@ -2,7 +2,7 @@ import { Form, Input, Button, message, Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { Redirect, useHistory } from 'react-router-dom';
 import { useState } from 'react';
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import DatePicker from '../components/DatePicker';
 import axios from 'axios';
 
@@ -30,6 +30,10 @@ const FormPage = () => {
             setSpin(false);
             history.push("/login");
         });
+    
+    const disabledDate = (current: Dayjs): boolean => {
+        return current > dayjs().endOf('day');
+    }
 
     const fetchData = (date: Dayjs | null, dateString: string) => {
         setSpin(true);
@@ -76,7 +80,7 @@ const FormPage = () => {
         <Spin tip="加载中..." indicator={SpinIcon} spinning={spin} >
             <Form {...layout} form={form} onFinish={onFinish}>
                 <Form.Item name="date" label="日期" rules={[{ required: true }]}>
-                    <DatePicker onChange={fetchData} style={{ float: "left" }} />
+                    <DatePicker onChange={fetchData} style={{ float: "left" }} disabledDate={disabledDate} />
                 </Form.Item>
                 <Form.Item name="leukocyte" label="白细胞" rules={[{ required: true }]}>
                     <Input />
