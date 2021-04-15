@@ -1,10 +1,14 @@
 # Blood Data Management System | React (Ant Design)
 
+<a href="https://app.circleci.com/pipelines/github/DRJ31/BloodDataReact"><img alt="CircleCI" src="https://img.shields.io/circleci/build/github/DRJ31/BloodDataReact?logo=circleci"></a>
+<a href="https://github.com/DRJ31/BloodDataReact"><img alt="GitHub" src="https://img.shields.io/github/license/DRJ31/BloodDataReact"></a>
+<a href="https://www.typescriptlang.org"><img alt="GitHub top language" src="https://img.shields.io/github/languages/top/DRJ31/BloodDataReact?label=TypeScript"></a>
+
 This is a simple website to manage results from blood routine examination. You can also modify it to keep track of other data manually. 
 
 The website is of private use at present, therefore, there is temporarily no registration function in the system. The purpose of login function is to block strangers, thus the information of user has to add to database manually. 
 
-This is the frontend of the project, the backend of the project is [DRJ31/BloodDataExpress](https://github.com/DRJ31/BloodData/Express)
+This is the frontend of the project, the backend of the project is [DRJ31/BloodDataExpress](https://github.com/DRJ31/BloodDataExpress)
 
 ## Installation
 The project use **yarn** as package management tool. If you do not have **yarn**, you should run
