@@ -71,4 +71,4 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 ## URLs and Functions
 - **/** - Main page of data table and chart
 - **/login** - Login page
-- **/input** - Edit page (Developing)
+- **/input** - Edit page
