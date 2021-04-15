@@ -1,6 +1,21 @@
-# Getting Started with Create React App
+# Blood Data Management System | React (Ant Design)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a simple website to manage results from blood routine examination. You can also modify it to keep track of other data manually. 
+
+The website is of private use at present, therefore, there is temporarily no registration function in the system. The purpose of login function is to block strangers, thus the information of user has to add to database manually. 
+
+This is the frontend of the project, the backend of the project is [DRJ31/BloodDataExpress](https://github.com/DRJ31/BloodData/Express)
+
+## Installation
+The project use **yarn** as package management tool. If you do not have **yarn**, you should run
+```shell
+npm install -g yarn
+```
+Then, go to the root of project and then
+```shell
+yarn install
+```
+Now you can start the project.
 
 ## Available Scripts
 
@@ -39,8 +54,7 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## URLs and Functions
+- **/** - Main page of data table and chart
+- **/login** - Login page
+- **/input** - Edit page (Developing)
