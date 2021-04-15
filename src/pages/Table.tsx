@@ -126,7 +126,7 @@ const columns = [
         key: 'monocyteP',
         width: 130,
         sorter: (a: any, b: any) => a.monocyteP - b.monocyteP,
-        render: (text: string | number) => renderData(text, [3, 10])
+        render: (text: string | number) => text === 0 ? "" : renderData(text, [3, 10])
     },
     {
         title: <div>单核细胞<br/>[0.1-0.6]</div>,
@@ -134,7 +134,7 @@ const columns = [
         key: 'monocyte',
         width: 130,
         sorter: (a: any, b: any) => a.monocyte - b.monocyte,
-        render: (text: string | number) => renderData(text, [0.1, 0.6])
+        render: (text: string | number) => text === 0 ? "" : renderData(text, [0.1, 0.6])
     },
     {
         title: <div>网织红细胞<br/>[24-84]</div>,
