@@ -12,12 +12,22 @@ This is the frontend of the project, the backend of the project is [DRJ31/BloodD
 
 ## Installation
 The project use **yarn** as package management tool. If you do not have **yarn**, you should run
-```shell
+```bash
 npm install -g yarn
 ```
-Then, go to the root of project and then
-```shell
+### Install Dependencies
+Go to the root of project and
+```bash
 yarn install
+```
+### Create encrypted files
+```typescript
+/* Path: src/encrypt.ts */
+function encrypt(str: string): string {
+    // Encryption implementation
+}
+
+export default encrypt;
 ```
 Now you can start the project.
 
