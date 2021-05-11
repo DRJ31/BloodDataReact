@@ -1,8 +1,9 @@
-import { Table, Tabs, message, Skeleton, Statistic, Typography, Select } from "antd";
+import { Table, Tabs, message, Skeleton, Statistic, Typography, Select, Timeline } from "antd";
 import { Redirect } from "react-router-dom";
 import React from 'react';
 import axios from 'axios';
-import dayjs from 'dayjs';
+import dayjs, {Dayjs} from 'dayjs';
+import duration from 'dayjs/plugin/duration'
 import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
 import { DateChart } from '../components/DateChart';
 
@@ -12,6 +13,7 @@ const { TabPane } = Tabs;
 const { Title } = Typography;
 const { Option } = Select;
 
+dayjs.extend(duration)
 
 interface ChartData {
     key: string;
@@ -23,6 +25,7 @@ interface IState {
     data: any;
     loading: boolean;
     chartData: ChartData;
+    dateData: any;
 }
 
 function renderData(data: string | number, range: [number, number]) {
@@ -154,16 +157,21 @@ const columns = [
 
 class TablePage extends React.Component {
     state: IState = {
-        data: null,
+        data: [],
         loading: false,
-        chartData: chartOptions[0]
+        chartData: chartOptions[0],
+        dateData: []
     }
 
     componentDidMount() {
         this.setState({ loading: true });
         axios.get("/api/data")
             .then(response => {
-                this.setState({ loading: false, data: response.data.data });
+                this.setState({
+                    loading: false,
+                    data: response.data.data,
+                    dateData: response.data.data.filter((item: { remark: string; }) => item.remark.match("血红蛋白"))
+                });
             })
             .catch(err => {
                 window.localStorage.removeItem("username");
@@ -178,8 +186,20 @@ class TablePage extends React.Component {
         this.setState({ chartData: chartOptions[value] });
     }
 
+    changeDateKey = (value: string) => {
+        this.setState({ dateData: this.state.data.filter((item: { remark: string; }) => item.remark.match(value)) })
+    }
+
+    getDateDelta = (i: number, current: Dayjs): string => {
+        if (this.state.dateData[i]) {
+            const days = Math.floor(dayjs.duration(current.diff(dayjs(this.state.dateData[i].date))).asDays())
+            return `(${days}天前)`
+        }
+        return ""
+    }
+
     render() {
-        const { data, loading, chartData } = this.state;
+        const { data, loading, chartData, dateData } = this.state;
 
         if (!window.localStorage.username) {
             return (<Redirect to="/login" />);
@@ -202,6 +222,25 @@ class TablePage extends React.Component {
                             </Select><br/>
                             <Title level={2}>{chartData.name}</Title>
                             <DateChart data={data} k={chartData.key} range={chartData.range} name={chartData.name} />
+                        </Skeleton>
+                    </TabPane>
+                    <TabPane tab="间隔日期" key="3">
+                        <Skeleton active loading={loading}>
+                            <Select defaultValue="血红蛋白" onChange={this.changeDateKey} style={{ float: "left", width: 130 }}>
+                                <Option value="血红蛋白">血红蛋白</Option>
+                                <Option value="血小板">血小板</Option>
+                            </Select>
+                            <br/><br/><br/>
+                            <Timeline mode="left">
+                                <Timeline.Item label={dayjs().format("YYYY-MM-DD")}>
+                                    今天 {this.getDateDelta(0, dayjs())}
+                                </Timeline.Item>
+                                {dateData.map((val: { date: string, remark: string }, i: number) => (
+                                    <Timeline.Item label={dayjs(val.date).format("YYYY-MM-DD")}>
+                                        {val.remark} {this.getDateDelta(i + 1, dayjs(val.date))}
+                                    </Timeline.Item>
+                                ))}
+                            </Timeline>
                         </Skeleton>
                     </TabPane>
                 </Tabs>
