@@ -238,7 +238,7 @@ class TablePage extends React.Component {
                                     <br/>
                                     <Timeline mode="left" style={{ paddingRight: "1em" }}>
                                         <Timeline.Item label={dayjs().format("YYYY-MM-DD")}>
-                                            今天 {this.getDateDelta(0, dayjs(), data.filter((item) => item.remark.match("血小板")))}
+                                            今天 {this.getDateDelta(0, dayjs(), data.filter((item) => item.remark.match("血红蛋白")))}
                                         </Timeline.Item>
                                         {data.filter((item) => item.remark.match("血红蛋白")).map((val, i, arr) => (
                                             <Timeline.Item label={dayjs(val.date).format("YYYY-MM-DD")}>
