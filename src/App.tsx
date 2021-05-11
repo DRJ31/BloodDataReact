@@ -69,7 +69,7 @@ const App: FC = () => {
                     </div>
                 </Dropdown>}
             </Header>
-            <Content style={{ padding: "2em", textAlign: "center" }}>
+            <Content style={{ padding: "1.5em", textAlign: "center" }}>
               <Switch>
                   <Route exact path="/login">
                       <LoginPage />
