@@ -21,11 +21,24 @@ interface ChartData {
     range: [number, number];
 }
 
+interface BloodData {
+    id: number;
+    uid: number;
+    date: string;
+    leukocyte: number;
+    hemoglobin: number;
+    platelets: number;
+    monocyte: number;
+    monocyteP: number;
+    neutrophil: number;
+    reticulocyte: string;
+    remark: string;
+}
+
 interface IState {
-    data: any;
+    data: BloodData[];
     loading: boolean;
     chartData: ChartData;
-    dateData: any;
 }
 
 function renderData(data: string | number, range: [number, number]) {
@@ -159,8 +172,7 @@ class TablePage extends React.Component {
     state: IState = {
         data: [],
         loading: false,
-        chartData: chartOptions[0],
-        dateData: []
+        chartData: chartOptions[0]
     }
 
     componentDidMount() {
@@ -170,7 +182,6 @@ class TablePage extends React.Component {
                 this.setState({
                     loading: false,
                     data: response.data.data,
-                    dateData: response.data.data.filter((item: { remark: string; }) => item.remark.match("血红蛋白"))
                 });
             })
             .catch(err => {
@@ -186,20 +197,16 @@ class TablePage extends React.Component {
         this.setState({ chartData: chartOptions[value] });
     }
 
-    changeDateKey = (value: string) => {
-        this.setState({ dateData: this.state.data.filter((item: { remark: string; }) => item.remark.match(value)) })
-    }
-
-    getDateDelta = (i: number, current: Dayjs): string => {
-        if (this.state.dateData[i]) {
-            const days = Math.floor(dayjs.duration(current.diff(dayjs(this.state.dateData[i].date))).asDays())
+    getDateDelta = (i: number, current: Dayjs, arr: BloodData[]): string => {
+        if (arr[i]) {
+            const days = Math.floor(dayjs.duration(current.diff(dayjs(arr[i].date))).asDays())
             return `(${days}天前)`
         }
         return ""
     }
 
     render() {
-        const { data, loading, chartData, dateData } = this.state;
+        const { data, loading, chartData } = this.state;
 
         if (!window.localStorage.username) {
             return (<Redirect to="/login" />);
@@ -224,23 +231,36 @@ class TablePage extends React.Component {
                             <DateChart data={data} k={chartData.key} range={chartData.range} name={chartData.name} />
                         </Skeleton>
                     </TabPane>
-                    <TabPane tab="间隔日期" key="3">
+                    <TabPane tab="输细胞间隔" key="3">
                         <Skeleton active loading={loading}>
-                            <Select defaultValue="血红蛋白" onChange={this.changeDateKey} style={{ float: "left", width: 130 }}>
-                                <Option value="血红蛋白">血红蛋白</Option>
-                                <Option value="血小板">血小板</Option>
-                            </Select>
-                            <br/><br/><br/>
-                            <Timeline mode="left">
-                                <Timeline.Item label={dayjs().format("YYYY-MM-DD")}>
-                                    今天 {this.getDateDelta(0, dayjs())}
-                                </Timeline.Item>
-                                {dateData.map((val: { date: string, remark: string }, i: number) => (
-                                    <Timeline.Item label={dayjs(val.date).format("YYYY-MM-DD")}>
-                                        {val.remark} {this.getDateDelta(i + 1, dayjs(val.date))}
-                                    </Timeline.Item>
-                                ))}
-                            </Timeline>
+                            <Tabs defaultActiveKey="11" tabPosition="left">
+                                <TabPane tab="血红蛋白" key="11">
+                                    <br/>
+                                    <Timeline mode="left">
+                                        <Timeline.Item label={dayjs().format("YYYY-MM-DD")}>
+                                            今天 {this.getDateDelta(0, dayjs(), data.filter((item) => item.remark.match("血小板")))}
+                                        </Timeline.Item>
+                                        {data.filter((item) => item.remark.match("血红蛋白")).map((val, i, arr) => (
+                                            <Timeline.Item label={dayjs(val.date).format("YYYY-MM-DD")}>
+                                                {val.remark} {this.getDateDelta(i + 1, dayjs(val.date), arr)}
+                                            </Timeline.Item>
+                                        ))}
+                                    </Timeline>
+                                </TabPane>
+                                <TabPane tab="血小板" key="12">
+                                    <Timeline mode="left">
+                                        <br/>
+                                        <Timeline.Item label={dayjs().format("YYYY-MM-DD")}>
+                                            今天 {this.getDateDelta(0, dayjs(), data.filter((item) => item.remark.match("血小板")))}
+                                        </Timeline.Item>
+                                        {data.filter((item) => item.remark.match("血小板")).map((val, i, arr) => (
+                                            <Timeline.Item label={dayjs(val.date).format("YYYY-MM-DD")}>
+                                                {val.remark} {this.getDateDelta(i + 1, dayjs(val.date), arr)}
+                                            </Timeline.Item>
+                                        ))}
+                                    </Timeline>
+                                </TabPane>
+                            </Tabs>
                         </Skeleton>
                     </TabPane>
                 </Tabs>
