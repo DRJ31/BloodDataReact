@@ -234,7 +234,7 @@ class TablePage extends React.Component {
                     <TabPane tab="输细胞间隔" key="3"  style={{ height: window.innerHeight - 170, overflow: "auto" }}>
                         <Skeleton active loading={loading}>
                             <Tabs defaultActiveKey="11" tabPosition="left">
-                                <TabPane tab="血红蛋白" key="11"  style={{ height: window.innerHeight - 180, overflow: "auto" }}>
+                                <TabPane tab="血红蛋白" key="11"  style={{ height: window.innerHeight - 170, overflow: "auto" }}>
                                     <br/>
                                     <Timeline mode="left" style={{ paddingRight: "1em" }}>
                                         <Timeline.Item label={dayjs().format("YYYY-MM-DD")}>
@@ -247,7 +247,7 @@ class TablePage extends React.Component {
                                         ))}
                                     </Timeline>
                                 </TabPane>
-                                <TabPane tab="血小板" key="12"  style={{ height: window.innerHeight - 180, overflow: "auto" }}>
+                                <TabPane tab="血小板" key="12"  style={{ height: window.innerHeight - 170, overflow: "auto" }}>
                                     <Timeline mode="left" style={{ paddingRight: "1em" }}>
                                         <br/>
                                         <Timeline.Item label={dayjs().format("YYYY-MM-DD")}>
