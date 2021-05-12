@@ -205,6 +205,8 @@ class TablePage extends React.Component {
         return ""
     }
 
+    dateCmp = (a: BloodData, b: BloodData) => dayjs(b.date).valueOf() - dayjs(a.date).valueOf()
+
     render() {
         const { data, loading, chartData } = this.state;
 
@@ -212,6 +214,7 @@ class TablePage extends React.Component {
             return (<Redirect to="/login" />);
         }
 
+        // @ts-ignore
         return (
             <div>
                 <Tabs defaultActiveKey="1">
@@ -238,9 +241,9 @@ class TablePage extends React.Component {
                                     <br/>
                                     <Timeline mode="left" style={{ paddingRight: "1em" }}>
                                         <Timeline.Item label={dayjs().format("YYYY-MM-DD")}>
-                                            今天 {this.getDateDelta(0, dayjs(), data.filter((item) => item.remark.match("血红蛋白")))}
+                                            今天 {this.getDateDelta(0, dayjs(), data.sort(this.dateCmp).filter((item) => item.remark.match("血红蛋白")))}
                                         </Timeline.Item>
-                                        {data.filter((item) => item.remark.match("血红蛋白")).map((val, i, arr) => (
+                                        {data.sort(this.dateCmp).filter((item) => item.remark.match("血红蛋白")).map((val, i, arr) => (
                                             <Timeline.Item label={dayjs(val.date).format("YYYY-MM-DD")}>
                                                 {val.remark} {this.getDateDelta(i + 1, dayjs(val.date), arr)}
                                             </Timeline.Item>
@@ -251,9 +254,9 @@ class TablePage extends React.Component {
                                     <Timeline mode="left" style={{ paddingRight: "1em" }}>
                                         <br/>
                                         <Timeline.Item label={dayjs().format("YYYY-MM-DD")}>
-                                            今天 {this.getDateDelta(0, dayjs(), data.filter((item) => item.remark.match("血小板")))}
+                                            今天 {this.getDateDelta(0, dayjs(), data.sort(this.dateCmp).filter((item) => item.remark.match("血小板")))}
                                         </Timeline.Item>
-                                        {data.filter((item) => item.remark.match("血小板")).map((val, i, arr) => (
+                                        {data.sort(this.dateCmp).filter((item) => item.remark.match("血小板")).map((val, i, arr) => (
                                             <Timeline.Item label={dayjs(val.date).format("YYYY-MM-DD")}>
                                                 {val.remark} {this.getDateDelta(i + 1, dayjs(val.date), arr)}
                                             </Timeline.Item>
