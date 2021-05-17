@@ -6,6 +6,7 @@ import dayjs, {Dayjs} from 'dayjs';
 import duration from 'dayjs/plugin/duration'
 import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
 import { DateChart } from '../components/DateChart';
+import Cookie from "../cookie";
 
 axios.defaults.withCredentials = true;
 
@@ -185,7 +186,6 @@ class TablePage extends React.Component {
                 });
             })
             .catch(err => {
-                window.localStorage.removeItem("username");
                 this.setState({ loading: false });
                 if (err.response) {
                     message.warning(err.response.data.message);
@@ -210,7 +210,7 @@ class TablePage extends React.Component {
     render() {
         const { data, loading, chartData } = this.state;
 
-        if (!window.localStorage.username) {
+        if (!Cookie.getValue("username")) {
             return (<Redirect to="/login" />);
         }
 

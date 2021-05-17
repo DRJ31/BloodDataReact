@@ -13,6 +13,7 @@ import './App.css';
 import LoginPage from './pages/Login';
 import TablePage from './pages/Table';
 import FormPage from './pages/Form';
+import Cookie from "./cookie";
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
@@ -28,19 +29,17 @@ const App: FC = () => {
     }, [pathname])
     
     const logout = () => {
-        const username: string | null = window.localStorage.getItem("username");
+        const username: string | null = Cookie.getValue("username");
         if (username) {
             axios.post("/api/logout", { username })
             .then(response => {
                 message.success(response.data.message);
-                window.localStorage.removeItem("username");
                 history.push("/login");
             })
             .catch(err => {
                 if (err.response && err.response.data.message) {
                     message.error(err.response.data.message);
                 }
-                window.localStorage.removeItem("username");
                 history.push("/login");
             })
         }
