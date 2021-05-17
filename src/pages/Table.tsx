@@ -6,7 +6,7 @@ import dayjs, {Dayjs} from 'dayjs';
 import duration from 'dayjs/plugin/duration'
 import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
 import { DateChart } from '../components/DateChart';
-import Cookie from "../cookie";
+import * as Cookie from "../cookie";
 
 axios.defaults.withCredentials = true;
 

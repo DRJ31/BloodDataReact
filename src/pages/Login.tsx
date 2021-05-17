@@ -3,7 +3,7 @@ import axios from 'axios';
 import React from 'react';
 import { Redirect } from 'react-router';
 import encrypt from '../encrypt';
-import Cookie from "../cookie";
+import * as Cookie from "../cookie";
 
 axios.defaults.withCredentials = true;
 

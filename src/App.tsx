@@ -13,7 +13,7 @@ import './App.css';
 import LoginPage from './pages/Login';
 import TablePage from './pages/Table';
 import FormPage from './pages/Form';
-import Cookie from "./cookie";
+import * as Cookie from "./cookie";
 
 const { Header, Content } = Layout;
 const { Title } = Typography;

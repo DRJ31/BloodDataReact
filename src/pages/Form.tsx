@@ -5,7 +5,7 @@ import { useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import DatePicker from '../components/DatePicker';
 import axios from 'axios';
-import Cookie from "../cookie";
+import * as Cookie from "../cookie";
 
 axios.defaults.withCredentials = true;
 
