@@ -38,7 +38,7 @@ const FormPage = () => {
 
     const fetchData = (date: Dayjs | null, dateString: string) => {
         setSpin(true);
-        axios.post("/api/fetch", { date: dateString })
+        axios.get(`/api/blood/date?date=${dateString}`)
             .then(response => {
                 if (response.data.result) {
                     form.setFieldsValue(response.data.result);
@@ -53,7 +53,7 @@ const FormPage = () => {
 
     const onFinish = (values: any) => {
         setLoading(true);
-        axios.post("/api/insert", {
+        axios.post("/api/blood", {
             data: values
         }).then(response => {
             setLoading(false);
