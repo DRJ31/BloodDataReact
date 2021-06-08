@@ -31,7 +31,7 @@ class LoginPage extends React.Component {
 
         this.setState({ loading: true });
 
-        axios.post("/api/login", {
+        axios.post("http://localhost:5000/api/login", {
             username,
             password: encrypt(password)
         }).then(response => {
@@ -71,14 +71,14 @@ class LoginPage extends React.Component {
                 <Form.Item
                     label="Username"
                     name="username"
-                    rules={[{ required: true, message: "Please input username!" }]}
+                    rules={[{ required: true, message: "请输入用户名" }]}
                 >
                     <Input />
                 </Form.Item>
                 <Form.Item
                     label="Password"
                     name="password"
-                    rules={[{ required: true, message: "Please input password!" }]}
+                    rules={[{ required: true, message: "请输入密码" }]}
                 >
                     <Input.Password />
                 </Form.Item>

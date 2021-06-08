@@ -1,4 +1,4 @@
-import { Form, Input, Button, message, Spin } from 'antd';
+import {Form, Input, Button, message, Spin, Space} from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { Redirect, useHistory } from 'react-router-dom';
 import { useState } from 'react';
@@ -6,6 +6,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import DatePicker from '../components/DatePicker';
 import axios from 'axios';
 import * as Cookie from "../cookie";
+import { Link } from 'react-router-dom';
 
 axios.defaults.withCredentials = true;
 
@@ -22,7 +23,7 @@ const FormPage = () => {
     const [form] = Form.useForm();
     const history = useHistory();
 
-    axios.post("/api/check")
+    axios.post("http://localhost:5000/api/check")
         .then(() => setSpin(false))
         .catch(err => {
             if (err.response) {
@@ -38,10 +39,13 @@ const FormPage = () => {
 
     const fetchData = (date: Dayjs | null, dateString: string) => {
         setSpin(true);
-        axios.get(`/api/blood/date?date=${dateString}`)
+        axios.get(`http://localhost:5000/api/blood/date?date=${dateString}`)
             .then(response => {
                 if (response.data.result) {
                     form.setFieldsValue(response.data.result);
+                }
+                else {
+                    form.resetFields();
                 }
                 setSpin(false);
             })
@@ -53,7 +57,7 @@ const FormPage = () => {
 
     const onFinish = (values: any) => {
         setLoading(true);
-        axios.post("/api/blood", {
+        axios.post("http://localhost:5000/api/blood", {
             data: values
         }).then(response => {
             setLoading(false);
@@ -63,7 +67,7 @@ const FormPage = () => {
             setLoading(false);
             if (err.response && err.response.status) {
                 message.warning(err.response.data.message);
-                if (err.response.status === 403)
+                if (err.response.status === 401)
                     history.push("/login");
             }
             else {
@@ -80,25 +84,25 @@ const FormPage = () => {
     return (
         <Spin tip="加载中..." indicator={SpinIcon} spinning={spin} >
             <Form {...layout} form={form} onFinish={onFinish}>
-                <Form.Item name="date" label="日期" rules={[{ required: true }]}>
+                <Form.Item name="date" label="日期" rules={[{ required: true, message: "请选择日期" }]}>
                     <DatePicker onChange={fetchData} style={{ float: "left" }} disabledDate={disabledDate} />
                 </Form.Item>
-                <Form.Item name="leukocyte" label="白细胞" rules={[{ required: true }]}>
+                <Form.Item name="leukocyte" label="白细胞" rules={[{ required: true, message: "请输入白细胞数据" }]}>
                     <Input />
                 </Form.Item>
-                <Form.Item name="hemoglobin" label="血红蛋白" rules={[{ required: true }]}>
+                <Form.Item name="hemoglobin" label="血红蛋白" rules={[{ required: true, message: "请输入数据" }]}>
                     <Input />
                 </Form.Item>
-                <Form.Item name="platelets" label="血小板" rules={[{ required: true }]}>
+                <Form.Item name="platelets" label="血小板" rules={[{ required: true, message: "请输入血小板数据" }]}>
                     <Input />
                 </Form.Item>
-                <Form.Item name="monocyte" label="单核细胞" rules={[{ required: true }]}>
+                <Form.Item name="monocyte" label="单核细胞" rules={[{ required: true, message: "请输入单核细胞数据" }]}>
                     <Input />
                 </Form.Item>
-                <Form.Item name="monocyteP" label="单核细胞比例" rules={[{ required: true }]}>
+                <Form.Item name="monocyteP" label="单核细胞比例" rules={[{ required: true, message: "请输入单核细胞比例" }]}>
                     <Input />
                 </Form.Item>
-                <Form.Item name="neutrophil" label="中性粒细胞" rules={[{ required: true }]}>
+                <Form.Item name="neutrophil" label="中性粒细胞" rules={[{ required: true, message: "请输入中性粒细胞数据" }]}>
                     <Input />
                 </Form.Item>
                 <Form.Item name="reticulocyte" label="网织红细胞">
@@ -108,9 +112,14 @@ const FormPage = () => {
                     <Input />
                 </Form.Item> 
                 <Form.Item wrapperCol={{ span: 24 }}>
-                    <Button type="primary" htmlType="submit" loading={loading}>
-                        提交
-                    </Button>
+                    <Space size="middle">
+                        <Button type="primary" htmlType="submit" loading={loading}>
+                            提交
+                        </Button>
+                        <Link to="/">
+                            <Button>返回主页</Button>
+                        </Link>
+                    </Space>
                 </Form.Item>
             </Form>
         </Spin>

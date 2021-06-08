@@ -1,4 +1,4 @@
-import { Table, Tabs, message, Skeleton, Statistic, Typography, Select, Timeline } from "antd";
+import {Table, Tabs, message, Skeleton, Statistic, Typography, Select, Timeline, Button} from "antd";
 import { Redirect } from "react-router-dom";
 import React from 'react';
 import axios from 'axios';
@@ -7,6 +7,8 @@ import duration from 'dayjs/plugin/duration'
 import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
 import { DateChart } from '../components/DateChart';
 import * as Cookie from "../cookie";
+import DailyData from "./DailyData";
+import { Link } from 'react-router-dom';
 
 axios.defaults.withCredentials = true;
 
@@ -42,7 +44,7 @@ interface IState {
     chartData: ChartData;
 }
 
-function renderData(data: string | number, range: [number, number]) {
+export function renderData(data: string | number, range: [number, number]) {
     if (typeof data == "string" && data.length === 0)
         return "";
     if (data < range[0]) {
@@ -102,7 +104,7 @@ const columns = [
         key: 'date',
         fixed: true,
         width: 120,
-        sorter: (a: any, b: any) => dayjs(a.date).unix() - dayjs(b.date).unix(),
+        sorter: (a: BloodData, b: BloodData) => dayjs(a.date).unix() - dayjs(b.date).unix(),
         render: (text: string) => dayjs(text).format('YYYY-MM-DD')
     },
     {
@@ -110,7 +112,7 @@ const columns = [
         dataIndex: 'leukocyte',
         key: 'leukocyte',
         width: 130,
-        sorter: (a: any, b: any) => a.leukocyte - b.leukocyte,
+        sorter: (a: BloodData, b: BloodData) => a.leukocyte - b.leukocyte,
         render: (text: string | number) => renderData(text, [3.5, 9.5])
     },
     {
@@ -118,7 +120,7 @@ const columns = [
         dataIndex: 'hemoglobin',
         key: 'hemoglobin',
         width: 130,
-        sorter: (a: any, b: any) => a.hemoglobin - b.hemoglobin,
+        sorter: (a: BloodData, b: BloodData) => a.hemoglobin - b.hemoglobin,
         render: (text: string | number) => renderData(text, [130, 175])
     },
     {
@@ -126,7 +128,7 @@ const columns = [
         dataIndex: 'platelets',
         key: 'platelets',
         width: 130,
-        sorter: (a: any, b: any) => a.platelets - b.platelets,
+        sorter: (a: BloodData, b: BloodData) => a.platelets - b.platelets,
         render: (text: string | number) => renderData(text, [125, 350])
     },
     {
@@ -134,7 +136,7 @@ const columns = [
         dataIndex: 'neutrophil',
         key: 'neutrophil',
         width: 130,
-        sorter: (a: any, b: any) => a.neutrophil - b.neutrophil,
+        sorter: (a: BloodData, b: BloodData) => a.neutrophil - b.neutrophil,
         render: (text: string | number) => renderData(text, [1.8, 6.3])
     },
     {
@@ -142,7 +144,7 @@ const columns = [
         dataIndex: 'monocyteP',
         key: 'monocyteP',
         width: 130,
-        sorter: (a: any, b: any) => a.monocyteP - b.monocyteP,
+        sorter: (a: BloodData, b: BloodData) => a.monocyteP - b.monocyteP,
         render: (text: string | number) => text === 0 ? "" : renderData(text, [3, 10])
     },
     {
@@ -150,7 +152,7 @@ const columns = [
         dataIndex: 'monocyte',
         key: 'monocyte',
         width: 130,
-        sorter: (a: any, b: any) => a.monocyte - b.monocyte,
+        sorter: (a: BloodData, b: BloodData) => a.monocyte - b.monocyte,
         render: (text: string | number) => text === 0 ? "" : renderData(text, [0.1, 0.6])
     },
     {
@@ -158,7 +160,7 @@ const columns = [
         dataIndex: 'reticulocyte',
         key: 'reticulocyte',
         width: 130,
-        sorter: (a: any, b: any) => a.reticulocyte - b.reticulocyte,
+        sorter: (a: BloodData, b: BloodData) => parseFloat(a.reticulocyte) - parseFloat(b.reticulocyte),
         render: (text: string | number) => renderData(text, [24, 84])
     },
     {
@@ -178,7 +180,7 @@ class TablePage extends React.Component {
 
     componentDidMount() {
         this.setState({ loading: true });
-        axios.get("/api/blood")
+        axios.get("http://localhost:5000/api/blood")
             .then(response => {
                 this.setState({
                     loading: false,
@@ -190,7 +192,7 @@ class TablePage extends React.Component {
                 if (err.response) {
                     message.warning(err.response.data.message);
                 }
-            })
+            });
     }
 
     changeValue = (value: number) => {
@@ -220,8 +222,17 @@ class TablePage extends React.Component {
                 <Tabs defaultActiveKey="1">
                     <TabPane tab="血常规数据" key="1"  style={{ height: window.innerHeight - 170, overflow: "auto" }}>
                         <Skeleton active loading={loading}>
+                            <Link to="/input/blood">
+                                <Button style={{ float: "left" }} type="primary">
+                                    添加 / 编辑
+                                </Button>
+                            </Link>
+                            <br/><br/>
                             <Table dataSource={data} columns={columns} scroll={{ x: 1000 }} sticky />
                         </Skeleton>
+                    </TabPane>
+                    <TabPane tab="日常数据" key="2" style={{ height: window.innerHeight - 170, overflow: "auto" }}>
+                        <DailyData />
                     </TabPane>
                     <TabPane tab="血常规图表" key="3"  style={{ height: window.innerHeight - 170, overflow: "auto" }}>
                         <Skeleton active loading={loading}>
@@ -257,6 +268,19 @@ class TablePage extends React.Component {
                                             今天 {this.getDateDelta(0, dayjs(), data.sort(this.dateCmp).filter((item) => item.remark.match("血小板")))}
                                         </Timeline.Item>
                                         {data.sort(this.dateCmp).filter((item) => item.remark.match("血小板")).map((val, i, arr) => (
+                                            <Timeline.Item label={dayjs(val.date).format("YYYY-MM-DD")}>
+                                                {val.remark} {this.getDateDelta(i + 1, dayjs(val.date), arr)}
+                                            </Timeline.Item>
+                                        ))}
+                                    </Timeline>
+                                </TabPane>
+                                <TabPane tab="白细胞" key="13"  style={{ height: window.innerHeight - 170, overflow: "auto" }}>
+                                    <Timeline mode="left" style={{ paddingRight: "1em" }}>
+                                        <br/>
+                                        <Timeline.Item label={dayjs().format("YYYY-MM-DD")}>
+                                            今天 {this.getDateDelta(0, dayjs(), data.sort(this.dateCmp).filter((item) => item.remark.match("升白针")))}
+                                        </Timeline.Item>
+                                        {data.sort(this.dateCmp).filter((item) => item.remark.match("升白针")).map((val, i, arr) => (
                                             <Timeline.Item label={dayjs(val.date).format("YYYY-MM-DD")}>
                                                 {val.remark} {this.getDateDelta(i + 1, dayjs(val.date), arr)}
                                             </Timeline.Item>

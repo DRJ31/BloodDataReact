@@ -7,17 +7,18 @@ import {
     Link,
 } from 'react-router-dom';
 import { Layout, Typography, Result, Button, Menu, Dropdown, message } from 'antd';
-import { UserOutlined, EditOutlined, LogoutOutlined, DownOutlined } from '@ant-design/icons';
+import { UserOutlined, EditOutlined, LogoutOutlined, DownOutlined, PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import './App.css';
 import LoginPage from './pages/Login';
-import TablePage from './pages/Table';
-import FormPage from './pages/Form';
+import TablePage from './pages/MainTable';
+import FormPage from './pages/BloodForm';
+import DailyForm from "./pages/DailyForm";
 import * as Cookie from "./cookie";
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
-const whitelist = ["/", "/input"];
+const whitelist = ["/", "/input/blood", "/input/daily"];
 
 const App: FC = () => {
     const { pathname } = useLocation();
@@ -31,7 +32,7 @@ const App: FC = () => {
     const logout = () => {
         const username: string | null = Cookie.getValue("username");
         if (username) {
-            axios.post("/api/logout", { username })
+            axios.post("http://localhost:5000/api/logout", { username })
             .then(response => {
                 message.success(response.data.message);
                 history.push("/login");
@@ -47,8 +48,11 @@ const App: FC = () => {
     
     const menu = (
         <Menu>
+            <Menu.Item key="add" icon={<PlusOutlined />}>
+                <Link to="/input/daily">添加日常数据</Link>
+            </Menu.Item>
           <Menu.Item key="edit" icon={<EditOutlined />}>
-            <Link to="/input">编辑</Link>
+            <Link to="/input/blood">血常规数据编辑</Link>
           </Menu.Item>
           <Menu.Item key="logout" icon={<LogoutOutlined />}>
             <span onClick={logout}>退出</span>
@@ -76,15 +80,18 @@ const App: FC = () => {
                   <Route exact path="/">
                       <TablePage />
                   </Route>
-                  <Route exact path="/input">
+                  <Route exact path="/input/blood">
                       <FormPage />
+                  </Route>
+                  <Route exact path="/input/daily">
+                      <DailyForm />
                   </Route>
                   <Route path="*">
                       <Result
                           status="404"
                           title="404 Not Found"
                           subTitle="Sorry, the page you visited does not exist."
-                          extra={<Link to="/"><Button type="primary">Back Home</Button></Link>}
+                          extra={<Link to="/"><Button type="primary">返回主页</Button></Link>}
                       />
                   </Route>
               </Switch>
