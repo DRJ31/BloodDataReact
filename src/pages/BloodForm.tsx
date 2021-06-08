@@ -46,6 +46,7 @@ const FormPage = () => {
                 }
                 else {
                     form.resetFields();
+                    form.setFieldsValue({ date });
                 }
                 setSpin(false);
             })

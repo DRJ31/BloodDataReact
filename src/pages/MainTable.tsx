@@ -231,10 +231,7 @@ class TablePage extends React.Component {
                             <Table dataSource={data} columns={columns} scroll={{ x: 1000 }} sticky />
                         </Skeleton>
                     </TabPane>
-                    <TabPane tab="日常数据" key="2" style={{ height: window.innerHeight - 170, overflow: "auto" }}>
-                        <DailyData />
-                    </TabPane>
-                    <TabPane tab="血常规图表" key="3"  style={{ height: window.innerHeight - 170, overflow: "auto" }}>
+                    <TabPane tab="血常规图表" key="2"  style={{ height: window.innerHeight - 170, overflow: "auto" }}>
                         <Skeleton active loading={loading}>
                             <Select defaultValue={0} onChange={this.changeValue} style={{ float: "left", width: 130 }}>
                                 {chartOptions.map((val, i) => (
@@ -245,7 +242,7 @@ class TablePage extends React.Component {
                             <DateChart data={data} k={chartData.key} range={chartData.range} name={chartData.name} />
                         </Skeleton>
                     </TabPane>
-                    <TabPane tab="输细胞间隔" key="4"  style={{ height: window.innerHeight - 170, overflow: "auto" }}>
+                    <TabPane tab="输细胞间隔" key="3"  style={{ height: window.innerHeight - 170, overflow: "auto" }}>
                         <Skeleton active loading={loading}>
                             <Tabs defaultActiveKey="11" tabPosition="left">
                                 <TabPane tab="血红蛋白" key="11"  style={{ height: window.innerHeight - 170, overflow: "auto" }}>
@@ -289,6 +286,9 @@ class TablePage extends React.Component {
                                 </TabPane>
                             </Tabs>
                         </Skeleton>
+                    </TabPane>
+                    <TabPane tab="日常数据" key="4" style={{ height: window.innerHeight - 170, overflow: "auto" }}>
+                        <DailyData />
                     </TabPane>
                 </Tabs>
             </div>
