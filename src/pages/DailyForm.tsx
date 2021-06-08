@@ -23,7 +23,7 @@ const DailyForm = () => {
     const [form] = Form.useForm();
     const history = useHistory();
 
-    axios.post("http://localhost:5000/api/check")
+    axios.post("/api/check")
         .then(() => setSpin(false))
         .catch(err => {
             if (err.response) {
@@ -36,7 +36,7 @@ const DailyForm = () => {
     const onFinish = (values: any) => {
         setLoading(true);
         values["time"] = dayjs().format("YYYY-MM-DD HH:mm:ss")
-        axios.post("http://localhost:5000/api/daily", {
+        axios.post("/api/daily", {
             data: values
         }).then(response => {
             setLoading(false);

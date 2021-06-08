@@ -114,7 +114,7 @@ class DailyData extends React.Component {
     ];
 
     fetchData = () => {
-        axios.get("http://localhost:5000/api/daily")
+        axios.get("/api/daily")
             .then(response => {
                 this.setState({
                     loading: false,
@@ -155,7 +155,7 @@ class DailyData extends React.Component {
             return;
         }
         this.setState({ loading: true });
-        axios.delete(`http://localhost:5000/api/daily?id=${id}`)
+        axios.delete(`/api/daily?id=${id}`)
             .then(response => {
                 this.setState({ visible: false });
                 this.fetchData();
@@ -173,7 +173,7 @@ class DailyData extends React.Component {
         const { current } = this.state;
 
         this.setState({ loading: true });
-        axios.put("http://localhost:5000/api/daily", {
+        axios.put("/api/daily", {
             id: current?.id,
             data: values
         }).then(response => {

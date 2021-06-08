@@ -32,7 +32,7 @@ const App: FC = () => {
     const logout = () => {
         const username: string | null = Cookie.getValue("username");
         if (username) {
-            axios.post("http://localhost:5000/api/logout", { username })
+            axios.post("/api/logout", { username })
             .then(response => {
                 message.success(response.data.message);
                 history.push("/login");

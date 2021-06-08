@@ -180,7 +180,7 @@ class TablePage extends React.Component {
 
     componentDidMount() {
         this.setState({ loading: true });
-        axios.get("http://localhost:5000/api/blood")
+        axios.get("/api/blood")
             .then(response => {
                 this.setState({
                     loading: false,

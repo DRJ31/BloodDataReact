@@ -23,7 +23,7 @@ const FormPage = () => {
     const [form] = Form.useForm();
     const history = useHistory();
 
-    axios.post("http://localhost:5000/api/check")
+    axios.post("/api/check")
         .then(() => setSpin(false))
         .catch(err => {
             if (err.response) {
@@ -39,7 +39,7 @@ const FormPage = () => {
 
     const fetchData = (date: Dayjs | null, dateString: string) => {
         setSpin(true);
-        axios.get(`http://localhost:5000/api/blood/date?date=${dateString}`)
+        axios.get(`/api/blood/date?date=${dateString}`)
             .then(response => {
                 if (response.data.result) {
                     form.setFieldsValue(response.data.result);
@@ -57,7 +57,7 @@ const FormPage = () => {
 
     const onFinish = (values: any) => {
         setLoading(true);
-        axios.post("http://localhost:5000/api/blood", {
+        axios.post("/api/blood", {
             data: values
         }).then(response => {
             setLoading(false);
