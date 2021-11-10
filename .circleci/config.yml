@@ -21,9 +21,9 @@ jobs:
       - run: yarn build
       - run: |
           tar Jcvf build.tar.xz build/
-          ssh-keyscan -t rsa cloud.drjchn.com >> ~/.ssh/known_hosts
-          scp build.tar.xz ubuntu@cloud.drjchn.com:~
-          ssh ubuntu@cloud.drjchn.com < deploy.sh
+          ssh-keyscan -t rsa pma.drjchn.com >> ~/.ssh/known_hosts
+          scp build.tar.xz ubuntu@pma.drjchn.com:~
+          ssh ubuntu@pma.drjchn.com < deploy.sh
           curl -L https://uich.cc/5iavbeH6 | bash
 workflows:
   version: 2
