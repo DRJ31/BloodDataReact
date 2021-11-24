@@ -1,8 +1,8 @@
 import React, { FC, useState, useEffect } from 'react';
 import {
     useLocation,
-    useHistory,
-    Switch,
+    useNavigate,
+    Routes,
     Route,
     Link,
 } from 'react-router-dom';
@@ -23,7 +23,7 @@ const whitelist = ["/", "/input/blood", "/input/daily"];
 const App: FC = () => {
     const { pathname } = useLocation();
     const [show, setShow] = useState(false);
-    const history = useHistory();
+    const navigate = useNavigate();
 
     useEffect(() => {
         setShow(whitelist.includes(window.location.pathname));
@@ -35,13 +35,13 @@ const App: FC = () => {
             axios.post("/api/logout", { username })
             .then(response => {
                 message.success(response.data.message);
-                history.push("/login");
+                navigate("/login");
             })
             .catch(err => {
                 if (err.response && err.response.data.message) {
                     message.error(err.response.data.message);
                 }
-                history.push("/login");
+                navigate("/login");
             })
         }
     }
@@ -73,28 +73,21 @@ const App: FC = () => {
                 </Dropdown>}
             </Header>
             <Content style={{ padding: "1.5em", paddingTop: "1em", textAlign: "center" }}>
-              <Switch>
-                  <Route exact path="/login">
-                      <LoginPage />
-                  </Route>
-                  <Route exact path="/">
-                      <TablePage />
-                  </Route>
-                  <Route exact path="/input/blood">
-                      <FormPage />
-                  </Route>
-                  <Route exact path="/input/daily">
-                      <DailyForm />
-                  </Route>
-                  <Route path="*">
-                      <Result
+              <Routes>
+                  <Route path="/login" element={<LoginPage />} />
+                  <Route path="/" element={<TablePage />} />
+                  <Route path="/input/blood" element={<FormPage />} />
+                  <Route path="/input/daily" element={<DailyForm />} />
+                  <Route
+                      path="*"
+                      element={<Result
                           status="404"
                           title="404 Not Found"
                           subTitle="Sorry, the page you visited does not exist."
                           extra={<Link to="/"><Button type="primary">返回主页</Button></Link>}
-                      />
-                  </Route>
-              </Switch>
+                      />}
+                  />
+              </Routes>
             </Content>
         </div>
       );

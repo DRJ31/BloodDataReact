@@ -1,5 +1,5 @@
 import {Table, Tabs, message, Skeleton, Statistic, Typography, Select, Timeline, Button} from "antd";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import React from 'react';
 import axios from 'axios';
 import dayjs, {Dayjs} from 'dayjs';
@@ -213,7 +213,7 @@ class TablePage extends React.Component {
         const { data, loading, chartData } = this.state;
 
         if (!Cookie.getValue("username")) {
-            return (<Redirect to="/login" />);
+            return (<Navigate to="/login" />);
         }
 
         // @ts-ignore

@@ -1,6 +1,6 @@
 import {Form, Input, Button, message, Spin, Space} from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
-import { Redirect, useHistory } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import DatePicker from '../components/DatePicker';
@@ -19,9 +19,10 @@ const SpinIcon = <LoadingOutlined spin style={{ fontSize: 24 }} />
 
 const FormPage = () => {
     const [loading, setLoading] = useState(false);
+    const [dates, setDates] = useState([""])
     const [spin, setSpin] = useState(true);
     const [form] = Form.useForm();
-    const history = useHistory();
+    const navigate = useNavigate();
 
     axios.post("/api/check")
         .then(() => setSpin(false))
@@ -30,11 +31,32 @@ const FormPage = () => {
                 message.error(err.response.data.message);
             }
             setSpin(false);
-            history.push("/login");
+            navigate("/login");
         });
-    
+
     const disabledDate = (current: Dayjs): boolean => {
         return current > dayjs().endOf('day');
+    }
+
+    const getDates = () => {
+        if (dates.length > 1) {
+            return;
+        }
+        axios.get("/api/blood")
+            .then(response => {
+                setSpin(false);
+                const days = [], data = response.data.data;
+                for (let d of data) {
+                    days.push(dayjs(d.date).format("YYYY-MM-DD"));
+                }
+                setDates(days);
+            })
+            .catch(err => {
+                setSpin(false);
+                if (err.response) {
+                    message.warning(err.response.data.message);
+                }
+            });
     }
 
     const fetchData = (date: Dayjs | null, dateString: string) => {
@@ -69,7 +91,7 @@ const FormPage = () => {
             if (err.response && err.response.status) {
                 message.warning(err.response.data.message);
                 if (err.response.status === 401)
-                    history.push("/login");
+                    navigate("/login");
             }
             else {
                 message.error("提交错误");
@@ -79,14 +101,31 @@ const FormPage = () => {
     }
 
     if (!Cookie.getValue("username")) {
-        return <Redirect to="/login" />
+        return <Navigate to="/login" />
     }
 
     return (
         <Spin tip="加载中..." indicator={SpinIcon} spinning={spin} >
             <Form {...layout} form={form} onFinish={onFinish}>
                 <Form.Item name="date" label="日期" rules={[{ required: true, message: "请选择日期" }]}>
-                    <DatePicker onChange={fetchData} style={{ float: "left" }} disabledDate={disabledDate} />
+                    <DatePicker
+                        onClick={getDates}
+                        onChange={fetchData}
+                        style={{ float: "left" }}
+                        disabledDate={disabledDate}
+                        dateRender={current => {
+                            const style = { border: "", borderRadius: "" };
+                            if (dates.indexOf(current.format("YYYY-MM-DD")) !== -1) {
+                                style.border = '1px solid #1890ff';
+                                style.borderRadius = '50%';
+                            }
+                            return (
+                                <div className="ant-picker-cell-inner" style={style}>
+                                    {current.date()}
+                                </div>
+                            );
+                        }}
+                    />
                 </Form.Item>
                 <Form.Item name="leukocyte" label="白细胞" rules={[{ required: true, message: "请输入白细胞数据" }]}>
                     <Input />

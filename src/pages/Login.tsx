@@ -1,7 +1,7 @@
 import { Form, Input, Button, message } from 'antd';
 import axios from 'axios';
 import React from 'react';
-import { Redirect } from 'react-router';
+import { Navigate } from 'react-router';
 import encrypt from '../encrypt';
 import * as Cookie from "../cookie";
 
@@ -16,7 +16,7 @@ const tailLayout = {
 };
 
 interface IState {
-    redirect: Redirect | null;
+    redirect: Function | null;
     loading: boolean;
 }
 
@@ -37,7 +37,7 @@ class LoginPage extends React.Component {
         }).then(response => {
             const { message: msg } = response.data;
             message.success(msg);
-            this.setState({ redirect: <Redirect to="/" />, loading: false });
+            this.setState({ redirect: <Navigate to="/" />, loading: false });
         }).catch(err => {
             this.setState({ loading: false });
             if (err.response) {
@@ -57,7 +57,7 @@ class LoginPage extends React.Component {
         const { redirect, loading } = this.state;
 
         if (Cookie.getValue("username")) {
-            this.setState({ redirect: <Redirect to="/" /> });
+            this.setState({ redirect: <Navigate to="/" /> });
         }
 
         return (

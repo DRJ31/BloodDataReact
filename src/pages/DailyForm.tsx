@@ -1,6 +1,6 @@
 import axios from "axios";
 import {Button, Form, Input, message, Modal, Space, Spin} from "antd";
-import {Link, Redirect, useHistory} from "react-router-dom";
+import {Link, Navigate, useNavigate} from "react-router-dom";
 import {useState} from "react";
 import * as Cookie from "../cookie";
 import {LoadingOutlined} from "@ant-design/icons";
@@ -21,7 +21,7 @@ const DailyForm = () => {
     const [text, setText] = useState(<div>Null</div>);
     const [spin, setSpin] = useState(true);
     const [form] = Form.useForm();
-    const history = useHistory();
+    const navigate = useNavigate();
 
     axios.post("/api/check")
         .then(() => setSpin(false))
@@ -30,7 +30,7 @@ const DailyForm = () => {
                 message.error(err.response.data.message);
             }
             setSpin(false);
-            history.push("/login");
+            navigate("/login");
         });
 
     const onFinish = (values: any) => {
@@ -48,7 +48,7 @@ const DailyForm = () => {
             if (err.response && err.response.status) {
                 message.warning(err.response.data.message);
                 if (err.response.status === 401)
-                    history.push("/login");
+                    navigate("/login");
             }
             else {
                 message.error("提交错误");
@@ -74,7 +74,7 @@ const DailyForm = () => {
     }
 
     if (!Cookie.getValue("username")) {
-        return <Redirect to="/login" />
+        return <Navigate to="/login" />
     }
 
     return (
