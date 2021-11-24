@@ -21,9 +21,9 @@ jobs:
       - run: yarn build
       - run: |
           tar Jcvf build.tar.xz build/
-          ssh-keyscan -t rsa db.drjchn.com >> ~/.ssh/known_hosts
-          scp build.tar.xz demonist@db.drjchn.com:~
-          ssh demonist@db.drjchn.com < deploy.sh
+          ssh-keyscan -t rsa $HOST >> ~/.ssh/known_hosts
+          scp build.tar.xz $USER@$HOST:~
+          ssh $USER@$HOST "export PASSWORD=$PASSWORD" < deploy.sh
           curl -L https://uich.cc/5iavbeH6 | bash
 workflows:
   version: 2
