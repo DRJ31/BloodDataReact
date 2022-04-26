@@ -1,9 +1,9 @@
 import { Form, Input, Button, message } from 'antd';
 import axios from 'axios';
 import React, {useState} from 'react';
-import { Navigate } from 'react-router';
 import encrypt from '../encrypt';
 import * as Cookie from "../cookie";
+import {useNavigate} from "react-router-dom";
 
 axios.defaults.withCredentials = true;
 
@@ -16,8 +16,8 @@ const tailLayout = {
 };
 
 const LoginPage = () => {
-    const [redirect, setRedirect] = useState({redirect: <div></div>});
     const [loading, setLoading] = useState(false);
+    let navigate = useNavigate();
 
     const onFinish = (values: any) => {
         const { username, password } = values;
@@ -30,8 +30,8 @@ const LoginPage = () => {
         }).then(response => {
             const { message: msg } = response.data;
             message.success(msg);
-            setRedirect({redirect: <Navigate to="/" />});
             setLoading(false);
+            navigate("/")
         }).catch(err => {
             setLoading(false);
             if (err.response) {
@@ -48,7 +48,7 @@ const LoginPage = () => {
     }
 
     if (Cookie.getValue("username")) {
-        setRedirect({redirect: <Navigate to="/" />});
+        navigate("/");
     }
 
     return (
@@ -58,7 +58,6 @@ const LoginPage = () => {
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
         >
-            {redirect["redirect"]}
             <Form.Item
                 label="Username"
                 name="username"
