@@ -1,6 +1,6 @@
 import { Form, Input, Button, message } from 'antd';
 import axios from 'axios';
-import React from 'react';
+import React, {useState} from 'react';
 import { Navigate } from 'react-router';
 import encrypt from '../encrypt';
 import * as Cookie from "../cookie";
@@ -15,21 +15,14 @@ const tailLayout = {
     wrapperCol: { span: 24 },
 };
 
-interface IState {
-    redirect: Function | null;
-    loading: boolean;
-}
+const LoginPage = () => {
+    const [redirect, setRedirect] = useState({redirect: <div></div>});
+    const [loading, setLoading] = useState(false);
 
-class LoginPage extends React.Component {
-    state: IState = {
-        redirect: null,
-        loading: false
-    }
-
-    onFinish = (values: any) => {
+    const onFinish = (values: any) => {
         const { username, password } = values;
 
-        this.setState({ loading: true });
+        setLoading(true);
 
         axios.post("/api/login", {
             username,
@@ -37,9 +30,10 @@ class LoginPage extends React.Component {
         }).then(response => {
             const { message: msg } = response.data;
             message.success(msg);
-            this.setState({ redirect: <Navigate to="/" />, loading: false });
+            setRedirect({redirect: <Navigate to="/" />});
+            setLoading(false);
         }).catch(err => {
-            this.setState({ loading: false });
+            setLoading(false);
             if (err.response) {
                 message.error(err.response.data.message);
             }
@@ -49,45 +43,41 @@ class LoginPage extends React.Component {
         })
     }
 
-    onFinishFailed = (err: any) => {
+    const onFinishFailed = (err: any) => {
         message.error("Failed: ", err);
     }
 
-    render() {
-        const { redirect, loading } = this.state;
-
-        if (Cookie.getValue("username")) {
-            this.setState({ redirect: <Navigate to="/" /> });
-        }
-
-        return (
-            <Form
-                {...layout}
-                name="Login"
-                onFinish={this.onFinish}
-                onFinishFailed={this.onFinishFailed}
-            >
-                {redirect}
-                <Form.Item
-                    label="Username"
-                    name="username"
-                    rules={[{ required: true, message: "请输入用户名" }]}
-                >
-                    <Input />
-                </Form.Item>
-                <Form.Item
-                    label="Password"
-                    name="password"
-                    rules={[{ required: true, message: "请输入密码" }]}
-                >
-                    <Input.Password />
-                </Form.Item>
-                <Form.Item {...tailLayout}>
-                    <Button type="primary" htmlType="submit" loading={loading}>Login</Button>
-                </Form.Item>
-            </Form>
-        )
+    if (Cookie.getValue("username")) {
+        setRedirect({redirect: <Navigate to="/" />});
     }
+
+    return (
+        <Form
+            {...layout}
+            name="Login"
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+        >
+            {redirect["redirect"]}
+            <Form.Item
+                label="Username"
+                name="username"
+                rules={[{ required: true, message: "请输入用户名" }]}
+            >
+                <Input />
+            </Form.Item>
+            <Form.Item
+                label="Password"
+                name="password"
+                rules={[{ required: true, message: "请输入密码" }]}
+            >
+                <Input.Password />
+            </Form.Item>
+            <Form.Item {...tailLayout}>
+                <Button type="primary" htmlType="submit" loading={loading}>Login</Button>
+            </Form.Item>
+        </Form>
+    );
 }
 
 export default LoginPage;

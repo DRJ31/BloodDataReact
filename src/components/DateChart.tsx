@@ -1,7 +1,7 @@
-import { Line } from '@ant-design/charts';
+import {Line, LineConfig} from '@ant-design/charts';
 import dayjs from 'dayjs';
 
-function findMax(arr, key, rangeMax) {
+function findMax(arr: any, key: any, rangeMax: any) {
   let max = rangeMax + 10;
   for (let elem of arr) {
     if (elem[key] > rangeMax) max = elem[key] + 10;
@@ -39,14 +39,14 @@ function findMax(arr, key, rangeMax) {
 //     return <Line {...config} />
 // }
 
-export function DateChart(props) {
+export function DateChart(props: any) {
     const { data, k, range, name } = props;
-    data.sort((a, b) => dayjs(a.date).unix() - dayjs(b.date).unix());
-    data.forEach((v, i) => {
+    data.sort((a: any, b: any) => dayjs(a.date).unix() - dayjs(b.date).unix());
+    data.forEach((v: any, i: any) => {
         data[i].date = dayjs(v.date).format('YYYY-MM-DD');
     });
 
-    const config = {
+    const config: LineConfig = {
         data,
         height: 400,
         xField: 'date',
@@ -106,7 +106,7 @@ export function DateChart(props) {
             },
         ],
         tooltip: {
-          formatter: (datum) => {
+          formatter: (datum: any) => {
             return { name, value: datum[k] };
           },
         }

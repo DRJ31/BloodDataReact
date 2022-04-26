@@ -1,5 +1,5 @@
 import {Table, Tabs, message, Skeleton, Statistic, Typography, Select, Timeline, Button} from "antd";
-import { Navigate } from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
 import React from 'react';
 import axios from 'axios';
 import dayjs, {Dayjs} from 'dayjs';
@@ -8,7 +8,6 @@ import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
 import { DateChart } from '../components/DateChart';
 import * as Cookie from "../cookie";
 import DailyData from "./DailyData";
-import { Link } from 'react-router-dom';
 
 axios.defaults.withCredentials = true;
 
