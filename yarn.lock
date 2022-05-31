@@ -3142,10 +3142,10 @@
     lodash "^4.17.15"
     redent "^3.0.0"
 
-"@testing-library/react@^13.2.0":
-  version "13.2.0"
-  resolved "https://registry.yarnpkg.com/@testing-library/react/-/react-13.2.0.tgz#2db00bc94d71c4e90e5c25582e90a650ae2925bf"
-  integrity sha512-Bprbz/SZVONCJy5f7hcihNCv313IJXdYiv0nSJklIs1SQCIHHNlnGNkosSXnGZTmesyGIcBGNppYhXcc11pb7g==
+"@testing-library/react@^13.3.0":
+  version "13.3.0"
+  resolved "https://registry.npmmirror.com/@testing-library/react/-/react-13.3.0.tgz#bf298bfbc5589326bbcc8052b211f3bb097a97c5"
+  integrity sha512-DB79aA426+deFgGSjnf5grczDPiL4taK3hFaa+M5q7q20Kcve9eQottOG5kZ74KEr55v0tU2CQormSSDK87zYQ==
   dependencies:
     "@babel/runtime" "^7.12.5"
     "@testing-library/dom" "^8.5.0"
@@ -3408,10 +3408,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.31.tgz#72286bd33d137aa0d152d47ec7c1762563d34055"
   integrity sha512-vFHy/ezP5qI0rFgJ7aQnjDXwAMrG0KqqIH7tQG5PPv3BWBayOPIQNBjVc/P6hhdZfMx51REc6tfDNXHUio893g==
 
-"@types/node@^17.0.35":
-  version "17.0.35"
-  resolved "https://registry.npmmirror.com/@types/node/-/node-17.0.35.tgz#635b7586086d51fb40de0a2ec9d1014a5283ba4a"
-  integrity sha512-vu1SrqBjbbZ3J6vwY17jBs8Sr/BKA+/a/WtjRG+whKg1iuLFOosq872EXS0eXWILdO36DHQQeku/ZcL6hz2fpg==
+"@types/node@^17.0.36":
+  version "17.0.36"
+  resolved "https://registry.npmmirror.com/@types/node/-/node-17.0.36.tgz#c0d5f2fe76b47b63e0e0efc3d2049a9970d68794"
+  integrity sha512-V3orv+ggDsWVHP99K3JlwtH20R7J4IhI1Kksgc+64q5VxgfRkQG8Ws3MFm/FZOKDYGy9feGFlZ70/HpCNe9QaA==
 
 "@types/parse-json@^4.0.0":
   version "4.0.0"
@@ -3433,11 +3433,6 @@
   resolved "https://registry.yarnpkg.com/@types/q/-/q-1.5.4.tgz#15925414e0ad2cd765bfef58842f7e26a7accb24"
   integrity sha512-1HcDas8SEj4z1Wc696tH56G8OlRaH/sqZOynNNB+HF0WOeXPaxTtbYzJY2oEfiUxjSKjhCKr+MvR7dCHcEelug==
 
-"@types/qs@^6.9.7":
-  version "6.9.7"
-  resolved "https://registry.npmmirror.com/@types/qs/-/qs-6.9.7.tgz#63bb7d067db107cc1e457c303bc25d511febf6cb"
-  integrity sha512-FGa1F62FT09qcrueBA6qYTrJPVDzah9a+493+o2PCXsesWHIn27G98TsSMs3WPNbZIEj4+VJf6saSFpvD+3Zsw==
-
 "@types/react-dom@^18.0.0":
   version "18.0.0"
   resolved "https://registry.npmmirror.com/@types/react-dom/-/react-dom-18.0.0.tgz#b13f8d098e4b0c45df4f1ed123833143b0c71141"
@@ -3445,10 +3440,10 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-dom@^18.0.3":
-  version "18.0.4"
-  resolved "https://registry.npmmirror.com/@types/react-dom/-/react-dom-18.0.4.tgz#dcbcadb277bcf6c411ceff70069424c57797d375"
-  integrity sha512-FgTtbqPOCI3dzZPZoC2T/sx3L34qxy99ITWn4eoSA95qPyXDMH0ALoAqUp49ITniiJFsXUVBtalh/KffMpg21Q==
+"@types/react-dom@^18.0.5":
+  version "18.0.5"
+  resolved "https://registry.npmmirror.com/@types/react-dom/-/react-dom-18.0.5.tgz#330b2d472c22f796e5531446939eacef8378444a"
+  integrity sha512-OWPWTUrY/NIrjsAPkAk1wW9LZeIjSvkXRhclsFO8CZcZGCOg2G0YZy4ft+rOyYxy8B7ui5iZzi9OkDebZ7/QSA==
   dependencies:
     "@types/react" "*"
 
@@ -3942,17 +3937,16 @@ ansicolors@~0.2.1:
   resolved "https://registry.yarnpkg.com/ansicolors/-/ansicolors-0.2.1.tgz#be089599097b74a5c9c4a84a0cdbcdb62bd87aef"
   integrity sha1-vgiVmQl7dKXJxKhKDNvNtivYeu8=
 
-antd@^4.20.6:
-  version "4.20.6"
-  resolved "https://registry.npmmirror.com/antd/-/antd-4.20.6.tgz#0d46a4b6128a717b4cad7ac6902311a0210f1d6f"
-  integrity sha512-JHEwCDjWTAJ1yxlC5QPb7LhRMvdhccN5lzMYDs72sp6VOiaXVGAlwols+F8nQQRaF9h/eA6yQyZ622y8b9vaoQ==
+antd@^4.20.7:
+  version "4.20.7"
+  resolved "https://registry.npmmirror.com/antd/-/antd-4.20.7.tgz#7f4e2f5f3620044323355386091967045cfe2c24"
+  integrity sha512-X2lP1AiN9K9se9ZuQvgpeku7Z1G7KqKTuJVt0lpwWzei4aRReG+hJWMSOAsy0HonRWI2nDc9XMIK+o/kul8EXQ==
   dependencies:
     "@ant-design/colors" "^6.0.0"
     "@ant-design/icons" "^4.7.0"
     "@ant-design/react-slick" "~0.28.1"
     "@babel/runtime" "^7.12.5"
     "@ctrl/tinycolor" "^3.4.0"
-    "@types/qs" "^6.9.7"
     classnames "^2.2.6"
     copy-to-clipboard "^3.2.0"
     lodash "^4.17.21"
@@ -11734,10 +11728,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript@^4.6.4:
-  version "4.6.4"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.6.4.tgz#caa78bbc3a59e6a5c510d35703f6a09877ce45e9"
-  integrity sha512-9ia/jWHIEbo49HfjrLGfKbZSuWo9iTMwXO+Ca3pRsSpbsMbc7/IU8NKdCZVRRBafVPGnoJeFL76ZOAA84I9fEg==
+typescript@^4.7.2:
+  version "4.7.2"
+  resolved "https://registry.npmmirror.com/typescript/-/typescript-4.7.2.tgz#1f9aa2ceb9af87cca227813b4310fff0b51593c4"
+  integrity sha512-Mamb1iX2FDUpcTRzltPxgWMKy3fhg0TN378ylbktPGPK/99KbDtMQ4W1hwgsbPAsG3a0xKa1vmw4VKZQbkvz5A==
 
 ua-parser-js@^0.7.20:
   version "0.7.31"
