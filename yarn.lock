@@ -3187,7 +3187,7 @@
     "@testing-library/dom" "^8.5.0"
     "@types/react-dom" "^18.0.0"
 
-"@testing-library/user-event@^14.4.2", "@testing-library/user-event@^14.4.3":
+"@testing-library/user-event@^14.4.3":
   version "14.4.3"
   resolved "https://registry.yarnpkg.com/@testing-library/user-event/-/user-event-14.4.3.tgz#af975e367743fa91989cd666666aec31a8f50591"
   integrity sha512-kCUc5MEwaEMakkO5x7aoD+DLi02ehmEM2QCGWvNqAS1dV/fAvORWEjnjsEIvml59M7Y5kCkWN6fCCyPOe8OL6Q==
@@ -3420,10 +3420,10 @@
     jest-diff "^26.0.0"
     pretty-format "^26.0.0"
 
-"@types/jest@^29.1.0":
-  version "29.1.0"
-  resolved "https://registry.npmmirror.com/@types/jest/-/jest-29.1.0.tgz#9cfbe1b0d4408f9732aaf37447460f10f2c71ce6"
-  integrity sha512-CqlKkMNaUhFSRvqVKniNhbcy9fc/Rj2cmFD5t8Jtu4HlHzSit27h7XKfP5kkxBeROQ8WAvQQmy93FIz9or8jKg==
+"@types/jest@^29.1.1":
+  version "29.1.1"
+  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-29.1.1.tgz#cf21a0835a1ba9a30ea1966019f1261c6a114c92"
+  integrity sha512-U9Ey07dGWl6fUFaIaUQUKWG5NoKi/zizeVQCGV8s4nSU0jPgqphVZvS64+8BtWYvrc3ZGw6wo943NSYPxkrp/g==
   dependencies:
     expect "^29.0.0"
     pretty-format "^29.0.0"
@@ -3460,10 +3460,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.31.tgz#72286bd33d137aa0d152d47ec7c1762563d34055"
   integrity sha512-vFHy/ezP5qI0rFgJ7aQnjDXwAMrG0KqqIH7tQG5PPv3BWBayOPIQNBjVc/P6hhdZfMx51REc6tfDNXHUio893g==
 
-"@types/node@^18.7.23":
-  version "18.7.23"
-  resolved "https://registry.npmmirror.com/@types/node/-/node-18.7.23.tgz#75c580983846181ebe5f4abc40fe9dfb2d65665f"
-  integrity sha512-DWNcCHolDq0ZKGizjx2DZjR/PqsYwAcYUJmfMWqtVU2MBMG5Mo+xFZrhGId5r/O5HOuMPyQEcM6KUBp5lBZZBg==
+"@types/node@^18.8.0":
+  version "18.8.0"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.8.0.tgz#b8ee8d83a99470c0661bd899417fcd77060682fe"
+  integrity sha512-u+h43R6U8xXDt2vzUaVP3VwjjLyOJk6uEciZS8OSyziUQGOwmk+l+4drxcsDboHXwyTaqS1INebghmWMRxq3LA==
 
 "@types/parse-json@^4.0.0":
   version "4.0.0"
@@ -4005,17 +4005,16 @@ ansicolors@~0.2.1:
   resolved "https://registry.yarnpkg.com/ansicolors/-/ansicolors-0.2.1.tgz#be089599097b74a5c9c4a84a0cdbcdb62bd87aef"
   integrity sha1-vgiVmQl7dKXJxKhKDNvNtivYeu8=
 
-antd@^4.23.3:
-  version "4.23.3"
-  resolved "https://registry.npmmirror.com/antd/-/antd-4.23.3.tgz#25dd4e2020d9bf2de2f1734eeb48b3b51af2b4b3"
-  integrity sha512-qkvb9BAlkBRkPyFgjfDgTEiWwyMG85pTrcsfFq2VGUr4NLuCIDIQiAqTjQYk4qJ7iGYghPomrLXkulHUofswWg==
+antd@^4.23.4:
+  version "4.23.4"
+  resolved "https://registry.yarnpkg.com/antd/-/antd-4.23.4.tgz#fafe315f1761ab80258d5569462025cc238422d5"
+  integrity sha512-2VdDSPXEjCc2m2qBgv6DKpKnsKIGyQtJBdcGn223EqHxDWHqCaRxeJIA9bcW50ntHFkwdeBa+IeWLBor377dkA==
   dependencies:
     "@ant-design/colors" "^6.0.0"
     "@ant-design/icons" "^4.7.0"
     "@ant-design/react-slick" "~0.29.1"
     "@babel/runtime" "^7.18.3"
     "@ctrl/tinycolor" "^3.4.0"
-    "@testing-library/user-event" "^14.4.2"
     classnames "^2.2.6"
     copy-to-clipboard "^3.2.0"
     lodash "^4.17.21"
