@@ -6,10 +6,11 @@ import * as Cookie from "../cookie";
 import {useNavigate} from "react-router-dom";
 
 axios.defaults.withCredentials = true;
+axios.defaults.baseURL = process.env.NODE_ENV === "development" ? "http://localhost:5004" : "";
 
 const layout = {
-    labelCol: { span: 8 },
-    wrapperCol: { span: 8 },
+    labelCol: { xs: 6, sm: 8 },
+    wrapperCol: { xs: 18, sm: 12 },
 };
 const tailLayout = {
     wrapperCol: { span: 24 },

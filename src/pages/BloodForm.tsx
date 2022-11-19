@@ -10,8 +10,8 @@ import { Link } from 'react-router-dom';
 axios.defaults.withCredentials = true;
 
 const layout = {
-    labelCol: { span: 4 },
-    wrapperCol: { span: 18 }
+    labelCol: { sm: 4, xs: 8 },
+    wrapperCol: { sm: 18, xs: 14 }
 }
 
 const SpinIcon = <LoadingOutlined spin style={{ fontSize: 24 }}/>
