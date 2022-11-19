@@ -1,10 +1,9 @@
 import React from 'react';
 import axios from 'axios';
-import {message, Skeleton, Table, Space, Button, Modal} from 'antd';
-import DatePicker from "../components/DatePicker";
-import dayjs, {Dayjs} from "dayjs";
+import { message, Skeleton, Table, Space, Button, Modal, DatePicker } from 'antd';
+import dayjs, { Dayjs } from "dayjs";
 import { renderData } from './MainTable';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { PlusOutlined } from '@ant-design/icons';
 import EditDailyForm from "../components/EditDailyForm";
 
@@ -40,7 +39,7 @@ class DailyData extends React.Component {
     }
 
     componentDidMount() {
-        this.setState({ loading: true});
+        this.setState({ loading: true });
         this.fetchData();
     }
 
@@ -52,7 +51,7 @@ class DailyData extends React.Component {
             fixed: true,
             width: 130,
             sorter: (a: DailyRecord, b: DailyRecord) => dayjs(a.time).unix() - dayjs(b.time).unix(),
-            render: (text: string) =>  `${dayjs(text).format("YY-MM-DD")} ${dayjs(text).hour() < 12 ? "上午" : "下午"}`
+            render: (text: string) => `${dayjs(text).format("YY-MM-DD")} ${dayjs(text).hour() < 12 ? "上午" : "下午"}`
         },
         {
             title: '体温',
@@ -76,7 +75,7 @@ class DailyData extends React.Component {
                 <div>
                     {renderData(record.pressure_high, [90, 120])}
                     /
-                    {renderData(record.pressure_low, [60, 90]) }
+                    {renderData(record.pressure_low, [60, 90])}
                 </div>
             )
         },
@@ -168,7 +167,7 @@ class DailyData extends React.Component {
                 }
             })
     }
-    
+
     updateData = (values: any) => {
         const { current } = this.state;
 
@@ -184,8 +183,7 @@ class DailyData extends React.Component {
             this.setState({ loading: false });
             if (err.response && err.response.status) {
                 message.warning(err.response.data.message);
-            }
-            else {
+            } else {
                 message.error("提交错误");
             }
         })
@@ -201,29 +199,30 @@ class DailyData extends React.Component {
         return (
             <Skeleton active loading={loading}>
                 <Space size="middle" style={{ float: "left" }}>
-                    <DatePicker picker="month" onChange={this.changeDate} disabledDate={this.disabledDate} style={{ float: "left" }} />
+                    <DatePicker picker="month" onChange={this.changeDate} disabledDate={this.disabledDate}
+                                style={{ float: "left" }}/>
                     <Link to="/input/daily">
                         <Button type="primary">
-                            <PlusOutlined /> 添加
+                            <PlusOutlined/> 添加
                         </Button>
                     </Link>
                 </Space>
                 <br/><br/>
-                <Table dataSource={this.filterData(data, month)} columns={this.columns} scroll={{ x: 1000 }} sticky />
+                <Table dataSource={this.filterData(data, month)} columns={this.columns} scroll={{ x: 1000 }} sticky/>
                 <Modal
                     title="删除确认"
                     okButtonProps={{ danger: true }}
                     okText="删除"
                     cancelText="取消"
                     confirmLoading={loading}
-                    visible={visible}
+                    open={visible}
                     onCancel={() => this.setState({ visible: false })}
                     onOk={() => this.deleteData(current?.id)}
                 >
                     确认删除 <b>{dayjs(current?.time).format("YYYY-MM-DD HH:mm")}</b> 的记录吗？
                 </Modal>
                 <EditDailyForm
-                    visible={show}
+                    open={show}
                     setVisible={(bool: boolean) => this.setState({ show: bool })}
                     onFinish={(values: any) => this.updateData(values)}
                     loading={loading}

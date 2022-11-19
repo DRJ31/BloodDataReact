@@ -111,7 +111,7 @@ const DailyForm = () => {
             </Form>
             <Modal
                 title="确认提交"
-                visible={visible}
+                open={visible}
                 onOk={() => form.submit()}
                 okText="确认"
                 cancelText="取消"

@@ -25,7 +25,7 @@ const EditDailyForm = (props: any) => {
             title="编辑记录"
             okText="更新"
             cancelText="取消"
-            visible={visible}
+            open={visible}
             confirmLoading={loading}
             onCancel={() => setVisible(false)}
             onOk={form.submit}

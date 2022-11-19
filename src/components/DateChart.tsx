@@ -1,12 +1,12 @@
-import {Line, LineConfig} from '@ant-design/charts';
+import { Line, LineConfig } from '@ant-design/plots';
 import dayjs from 'dayjs';
 
 function findMax(arr: any, key: any, rangeMax: any) {
-  let max = rangeMax + 10;
-  for (let elem of arr) {
-    if (elem[key] > rangeMax) max = elem[key] + 10;
-  }
-  return max;
+    let max = rangeMax + 10;
+    for (let elem of arr) {
+        if (elem[key] > rangeMax) max = elem[key] + 10;
+    }
+    return max;
 }
 
 // export function DateLineChart(props) {
@@ -52,8 +52,8 @@ export function DateChart(props: any) {
         xField: 'date',
         yField: k,
         point: {
-          size: 5,
-          shape: 'diamond',
+            size: 5,
+            shape: 'diamond',
         },
         slider: {
             start: 0.7,
@@ -61,54 +61,54 @@ export function DateChart(props: any) {
         },
         annotations: [
             {
-              type: 'regionFilter',
-              start: ['min', range[0]],
-              end: ['max', '0'],
-              color: '#F4664A',
+                type: 'regionFilter',
+                start: ['min', range[0]],
+                end: ['max', '0'],
+                color: '#F4664A',
             },
             {
-              type: 'text',
-              position: ['min', range[0]],
-              content: '标准最小值',
-              offsetY: -4,
-              style: { textBaseline: 'bottom' },
+                type: 'text',
+                position: ['min', range[0]],
+                content: '标准最小值',
+                offsetY: -4,
+                style: { textBaseline: 'bottom' },
             },
             {
-              type: 'line',
-              start: ['min', range[0]],
-              end: ['max', range[0]],
-              style: {
-                stroke: '#F4664A',
-                lineDash: [2, 2],
-              },
+                type: 'line',
+                start: ['min', range[0]],
+                end: ['max', range[0]],
+                style: {
+                    stroke: '#F4664A',
+                    lineDash: [2, 2],
+                },
             },
             {
-              type: 'regionFilter',
-              start: ['min', findMax(data, k, range[1])],
-              end: ['max', range[1]],
-              color: '#F4664A',
+                type: 'regionFilter',
+                start: ['min', findMax(data, k, range[1])],
+                end: ['max', range[1]],
+                color: '#F4664A',
             },
             {
-              type: 'text',
-              position: ['min', range[1] - 1],
-              content: '标准最大值',
-              offsetY: -4,
-              style: { textBaseline: 'bottom' },
+                type: 'text',
+                position: ['min', range[1] - 1],
+                content: '标准最大值',
+                offsetY: -4,
+                style: { textBaseline: 'bottom' },
             },
             {
-              type: 'line',
-              start: ['min', range[1]],
-              end: ['max', range[1]],
-              style: {
-                stroke: '#F4664A',
-                lineDash: [2, 2],
-              },
+                type: 'line',
+                start: ['min', range[1]],
+                end: ['max', range[1]],
+                style: {
+                    stroke: '#F4664A',
+                    lineDash: [2, 2],
+                },
             },
         ],
         tooltip: {
-          formatter: (datum: any) => {
-            return { name, value: datum[k] };
-          },
+            formatter: (datum: any) => {
+                return { name, value: datum[k] };
+            },
         }
     };
 
