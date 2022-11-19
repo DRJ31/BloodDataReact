@@ -5,14 +5,14 @@ import {
     Outlet,
     Link,
 } from 'react-router-dom';
-import { Layout, Typography, Dropdown, message, MenuProps } from 'antd';
+import { Layout, Dropdown, message, MenuProps } from 'antd';
+import { PageHeader } from "@ant-design/pro-components";
 import { UserOutlined, EditOutlined, LogoutOutlined, DownOutlined, PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import './App.css';
 import * as Cookie from "./cookie";
 
-const { Header, Content } = Layout;
-const { Title } = Typography;
+const { Content } = Layout;
 const whitelist = ["/", "/input/blood", "/input/daily"];
 
 const App: FC = () => {
@@ -62,16 +62,15 @@ const App: FC = () => {
 
     return (
         <div className="app">
-            <Header>
-                <Title style={{ lineHeight: "2.7em", background: "#1677ff", paddingLeft: "2em" }} level={3}>
-                  <Link to="/" style={{ color: "white" }}>Blood Data</Link>
-                </Title>
-                {show && <Dropdown menu={{ items }} trigger={['click', 'hover']}>
+            <PageHeader
+                title={<Link to="/" style={{ color: "white", textDecoration: "none" }}>Blood Data</Link>}
+                style={{ backgroundColor: "#003a8c" }}
+                extra={show && <Dropdown menu={{ items }} trigger={['click', 'hover']}>
                     <div style={{ fontSize: "1.5em", color: "white", float: "right" }}>
                         <UserOutlined /> <DownOutlined />
                     </div>
                 </Dropdown>}
-            </Header>
+            />
             <Content style={{ padding: "1.5em", paddingTop: "1em", textAlign: "center" }}>
               <Outlet/>
             </Content>
