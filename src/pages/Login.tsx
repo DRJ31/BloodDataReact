@@ -9,8 +9,8 @@ axios.defaults.withCredentials = true;
 axios.defaults.baseURL = process.env.NODE_ENV === "development" ? "http://localhost:5004" : "";
 
 const layout = {
-    labelCol: { xs: 6, sm: 8 },
-    wrapperCol: { xs: 18, sm: 12 },
+    labelCol: { xs: 6, md: 8 },
+    wrapperCol: { xs: 18, md: 12, lg: 8 },
 };
 const tailLayout = {
     wrapperCol: { span: 24 },
