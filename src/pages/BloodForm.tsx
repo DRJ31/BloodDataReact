@@ -1,11 +1,12 @@
-import { Form, Input, Button, message, Spin, Space, DatePicker } from 'antd';
+import { Form, Input, Button, message, Spin, Space, DatePicker, DatePickerProps } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import axios from 'axios';
 import * as Cookie from "../cookie";
 import { Link } from 'react-router-dom';
+import { RangePickerProps } from "antd/es/date-picker";
 
 axios.defaults.withCredentials = true;
 
@@ -33,8 +34,8 @@ const FormPage = () => {
             navigate("/login");
         });
 
-    const disabledDate = (current: Dayjs): boolean => {
-        return current > dayjs().endOf('day');
+    const disabledDate: RangePickerProps["disabledDate"] = (current) => {
+        return current && current > dayjs().endOf('day');
     }
 
     const getDates = () => {
@@ -58,7 +59,7 @@ const FormPage = () => {
             });
     }
 
-    const fetchData = (date: Dayjs | null, dateString: string) => {
+    const fetchData = (date: DatePickerProps["value"] | null, dateString: string) => {
         setSpin(true);
         axios.get(`/api/blood/date?date=${dateString}`)
             .then(response => {

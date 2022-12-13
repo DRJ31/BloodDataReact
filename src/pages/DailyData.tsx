@@ -1,11 +1,12 @@
 import React from 'react';
 import axios from 'axios';
-import { message, Skeleton, Table, Space, Button, Modal, DatePicker } from 'antd';
-import dayjs, { Dayjs } from "dayjs";
+import { message, Skeleton, Table, Space, Button, Modal, DatePicker, DatePickerProps } from 'antd';
+import dayjs from "dayjs";
 import { renderData } from './MainTable';
 import { Link } from 'react-router-dom';
 import { PlusOutlined } from '@ant-design/icons';
 import EditDailyForm from "../components/EditDailyForm";
+import { RangePickerProps } from "antd/es/date-picker";
 
 interface DailyRecord {
     id: number,
@@ -128,11 +129,11 @@ class DailyData extends React.Component {
             });
     }
 
-    disabledDate = (current: Dayjs): boolean => {
+    disabledDate: RangePickerProps["disabledDate"] = (current) => {
         return current > dayjs().endOf('day');
     }
 
-    changeDate = (date: Dayjs | null, dateString: string) => {
+    changeDate = (date: DatePickerProps["value"] | null, dateString: string) => {
         this.setState({ month: dateString })
     }
 
@@ -199,8 +200,12 @@ class DailyData extends React.Component {
         return (
             <Skeleton active loading={loading}>
                 <Space size="middle" style={{ float: "left" }}>
-                    <DatePicker picker="month" onChange={this.changeDate} disabledDate={this.disabledDate}
-                                style={{ float: "left" }}/>
+                    <DatePicker
+                        picker="month"
+                        onChange={this.changeDate}
+                        disabledDate={this.disabledDate}
+                        style={{ float: "left" }}
+                    />
                     <Link to="/input/daily">
                         <Button type="primary">
                             <PlusOutlined/> 添加
