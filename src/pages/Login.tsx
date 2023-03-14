@@ -1,9 +1,9 @@
-import { Form, Input, Button, message } from 'antd';
+import { Form, Input, Button, message, Row, Col } from 'antd';
 import axios from 'axios';
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import encrypt from '../encrypt';
 import * as Cookie from "../cookie";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = process.env.NODE_ENV === "development" ? "http://localhost:5004" : "";
@@ -37,8 +37,7 @@ const LoginPage = () => {
             setLoading(false);
             if (err.response) {
                 message.error(err.response.data.message);
-            }
-            else {
+            } else {
                 message.error("登录失败");
             }
         })
@@ -53,30 +52,35 @@ const LoginPage = () => {
     }
 
     return (
-        <Form
-            {...layout}
-            name="Login"
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-        >
-            <Form.Item
-                label="Username"
-                name="username"
-                rules={[{ required: true, message: "请输入用户名" }]}
-            >
-                <Input />
-            </Form.Item>
-            <Form.Item
-                label="Password"
-                name="password"
-                rules={[{ required: true, message: "请输入密码" }]}
-            >
-                <Input.Password />
-            </Form.Item>
-            <Form.Item {...tailLayout}>
-                <Button type="primary" htmlType="submit" loading={loading}>Login</Button>
-            </Form.Item>
-        </Form>
+        <Row align="middle" style={{ height: "90%" }}>
+            <Col sm={24} xs={24}>
+                <img src="/logo.svg" className="App-logo" alt="logo" style={{ width: 100, height: 100 }} />
+                <Form
+                    {...layout}
+                    name="Login"
+                    onFinish={onFinish}
+                    onFinishFailed={onFinishFailed}
+                >
+                    <Form.Item
+                        label="Username"
+                        name="username"
+                        rules={[{ required: true, message: "请输入用户名" }]}
+                    >
+                        <Input/>
+                    </Form.Item>
+                    <Form.Item
+                        label="Password"
+                        name="password"
+                        rules={[{ required: true, message: "请输入密码" }]}
+                    >
+                        <Input.Password/>
+                    </Form.Item>
+                    <Form.Item {...tailLayout}>
+                        <Button type="primary" htmlType="submit" loading={loading}>Login</Button>
+                    </Form.Item>
+                </Form>
+            </Col>
+        </Row>
     );
 }
 

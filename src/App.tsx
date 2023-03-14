@@ -71,7 +71,7 @@ const App: FC = () => {
                     </div>
                 </Dropdown>}
             />
-            <Content style={{ padding: "1.5em", paddingTop: "1em", textAlign: "center" }}>
+            <Content style={{ padding: "1.5em", paddingTop: "1em", textAlign: "center", height: "90vh" }}>
               <Outlet/>
             </Content>
         </div>
