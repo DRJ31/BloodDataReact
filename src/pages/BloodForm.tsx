@@ -2,7 +2,7 @@ import { Form, Input, Button, message, Spin, Space, DatePicker, DatePickerProps 
 import { LoadingOutlined } from '@ant-design/icons';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import axios from 'axios';
 import * as Cookie from "../cookie";
 import { Link } from 'react-router-dom';
@@ -59,7 +59,7 @@ const FormPage = () => {
             });
     }
 
-    const fetchData = (date: DatePickerProps["value"] | null, dateString: string) => {
+    const fetchData = (date: Dayjs | null | undefined, dateString: string | string[]) => {
         setSpin(true);
         axios.get(`/api/blood/date?date=${dateString}`)
             .then(response => {

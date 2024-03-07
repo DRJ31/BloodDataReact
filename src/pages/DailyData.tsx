@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { message, Skeleton, Table, Space, Button, Modal, DatePicker, DatePickerProps } from 'antd';
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import { renderData } from './MainTable';
 import { Link } from 'react-router-dom';
 import { PlusOutlined } from '@ant-design/icons';
@@ -133,7 +133,7 @@ class DailyData extends React.Component {
         return current > dayjs().endOf('day');
     }
 
-    changeDate = (date: DatePickerProps["value"] | null, dateString: string) => {
+    changeDate = (date: Dayjs | null | undefined, dateString: string | string[]) => {
         this.setState({ month: dateString })
     }
 
