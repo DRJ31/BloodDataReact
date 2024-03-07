@@ -1,4 +1,4 @@
-import { Form, Input, Button, message, Spin, Space, DatePicker, DatePickerProps } from 'antd';
+import { Form, Input, Button, message, Spin, Space, DatePicker } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useState } from 'react';

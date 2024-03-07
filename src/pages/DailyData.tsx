@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { message, Skeleton, Table, Space, Button, Modal, DatePicker, DatePickerProps } from 'antd';
+import { message, Skeleton, Table, Space, Button, Modal, DatePicker } from 'antd';
 import dayjs, { Dayjs } from "dayjs";
 import { renderData } from './MainTable';
 import { Link } from 'react-router-dom';
