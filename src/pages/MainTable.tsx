@@ -258,8 +258,8 @@ class TablePage extends React.Component {
                                     </Timeline>
                                 </TabPane>
                                 <TabPane tab="血小板" key="12"  style={{ height: window.innerHeight - 170, overflow: "auto" }}>
+                                    <br/>
                                     <Timeline mode="left" style={{ paddingRight: "1em" }}>
-                                        <br/>
                                         <Timeline.Item label={dayjs().format("YYYY-MM-DD")}>
                                             今天 {this.getDateDelta(0, dayjs(), data.sort(this.dateCmp).filter((item) => item.remark.match("血小板")))}
                                         </Timeline.Item>
@@ -271,8 +271,8 @@ class TablePage extends React.Component {
                                     </Timeline>
                                 </TabPane>
                                 <TabPane tab="白细胞" key="13"  style={{ height: window.innerHeight - 170, overflow: "auto" }}>
+                                    <br/>
                                     <Timeline mode="left" style={{ paddingRight: "1em" }}>
-                                        <br/>
                                         <Timeline.Item label={dayjs().format("YYYY-MM-DD")}>
                                             今天 {this.getDateDelta(0, dayjs(), data.sort(this.dateCmp).filter((item) => item.remark.match("升白针")))}
                                         </Timeline.Item>
