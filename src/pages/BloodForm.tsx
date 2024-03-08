@@ -111,8 +111,11 @@ const FormPage = () => {
                         onChange={fetchData}
                         style={{ float: "left" }}
                         disabledDate={disabledDate}
-                        dateRender={current => {
+                        cellRender={(current, info) => {
                             const style = { border: "", borderRadius: "" };
+                            if (typeof current === "number" || typeof current === "string") {
+                                return info.originNode;
+                            }
                             if (dates.indexOf(current.format("YYYY-MM-DD")) !== -1) {
                                 style.border = '1px solid #1677ff';
                                 style.borderRadius = '50%';
