@@ -150,7 +150,7 @@ class DailyData extends React.Component {
     }
 
     deleteData = (id: number | undefined) => {
-        if (typeof id === undefined) {
+        if (typeof id === "undefined") {
             message.error("尚未选定项目");
             return;
         }
