@@ -1,5 +1,6 @@
 #!/bin/bash
 
 tar xvf build.tar.xz
-sudo rm -rf /var/www/blood
-sudo mv build /var/www/blood
+rm -rf /data/nginx/www/blood
+mv build /data/nginx/www/blood
+rm -f build.tar.xz
