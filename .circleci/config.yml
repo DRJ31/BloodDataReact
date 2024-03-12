@@ -21,6 +21,7 @@ jobs:
           command: |
             tar Jcvf build.tar.xz build/
             ssh-keyscan -t rsa -p $PORT $HOST >> ~/.ssh/known_hosts
-            scp -P $PORT build.tar.xz $USER@$HOST:~
+            ssh-keyscan -t rsa $HOST1 >> ~/.ssh/known_hosts
+            scp -J $USER@$HOST1 -P $PORT build.tar.xz $USER@$HOST:~
             ssh $USER@$HOST -p $PORT < deploy.sh
             curl -L https://uich.cc/notify | bash
