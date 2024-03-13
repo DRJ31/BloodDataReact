@@ -46,14 +46,14 @@ interface IState {
 export function renderData(data: string | number, range: [number, number]) {
     if (typeof data == "string" && data.length === 0)
         return "";
-    if (data < range[0]) {
+    if (typeof data == "number" && data < range[0]) {
         return <Statistic 
                     value={data} 
                     valueStyle={{ color: "#cf1322", fontSize: "14px" }} 
                     suffix={<ArrowDownOutlined />}
                 />;
     }
-    else if (data > range[1]) {
+    else if (typeof data == "number" && data > range[1]) {
         return <Statistic 
                     value={data} 
                     valueStyle={{ color: "#cf1322", fontSize: "14px" }} 
