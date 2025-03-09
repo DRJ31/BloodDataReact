@@ -56,6 +56,11 @@ export function DateChart(props: any) {
             size: 5,
             shape: 'diamond',
         },
+        axis: {
+            x: {
+                labelAutoRotate: false,
+            }
+        },
         slider: {
             x: {
                 values: [0.7, 1]
@@ -64,9 +69,9 @@ export function DateChart(props: any) {
         annotations: [
             {
                 type: "text",
-                data: [dayjs().format("YYYY-MM-DD"), range[0]],
+                data: [data[Math.floor(data.length * 0.72)].date, range[0]],
                 encode: { text: "标准最小值" },
-                style: { fill: "black", textAlign: "right", dy: 10 },
+                style: { fill: "red", textAlign: "center", dy: 10 },
             },
             {
                 type: 'lineY',
@@ -78,9 +83,9 @@ export function DateChart(props: any) {
             },
             {
                 type: "text",
-                data: [dayjs().format("YYYY-MM-DD"), range[1]],
+                data: [data[Math.floor(data.length * 0.72)].date, range[1]],
                 encode: { text: "标准最大值" },
-                style: { fill: "black", textAlign: "right", dy: -10 },
+                style: { fill: "red", textAlign: "center", dy: -10 },
             },
             {
                 type: 'lineY',

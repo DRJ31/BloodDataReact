@@ -11,7 +11,6 @@ import DailyData from "./DailyData";
 
 axios.defaults.withCredentials = true;
 
-const { TabPane } = Tabs;
 const { Title } = Typography;
 const { Option } = Select;
 
@@ -47,16 +46,16 @@ export function renderData(data: string | number, range: [number, number]) {
     if (typeof data == "string" && data.length === 0)
         return "";
     if (typeof data == "number" && data < range[0]) {
-        return <Statistic 
-                    value={data} 
-                    valueStyle={{ color: "#cf1322", fontSize: "14px" }} 
+        return <Statistic
+                    value={data}
+                    valueStyle={{ color: "#cf1322", fontSize: "14px" }}
                     suffix={<ArrowDownOutlined />}
                 />;
     }
     else if (typeof data == "number" && data > range[1]) {
-        return <Statistic 
-                    value={data} 
-                    valueStyle={{ color: "#cf1322", fontSize: "14px" }} 
+        return <Statistic
+                    value={data}
+                    valueStyle={{ color: "#cf1322", fontSize: "14px" }}
                     suffix={<ArrowUpOutlined />}
                 />;
     }
@@ -211,6 +210,92 @@ class TablePage extends React.Component {
     render() {
         const { data, loading, chartData } = this.state;
 
+        const subItems = [
+            {
+                key: '11',
+                label: '血红蛋白',
+                children: <Timeline mode="left" style={{ paddingRight: "1em", paddingTop: "1em", height: '80vh', overflow: "auto" }}>
+                    <Timeline.Item label={dayjs().format("YYYY-MM-DD")}>
+                        今天 {this.getDateDelta(0, dayjs(), data.sort(this.dateCmp).filter((item) => item.remark.match("血红蛋白")))}
+                    </Timeline.Item>
+                    {data.sort(this.dateCmp).filter((item) => item.remark.match("血红蛋白")).map((val, i, arr) => (
+                      <Timeline.Item label={dayjs(val.date).format("YYYY-MM-DD")}>
+                          {val.remark} {this.getDateDelta(i + 1, dayjs(val.date), arr)}
+                      </Timeline.Item>
+                    ))}
+                </Timeline>,
+            },
+            {
+                key: '12',
+                label: '血小板',
+                children: <Timeline mode="left" style={{ paddingRight: "1em", paddingTop: "1em", height: '80vh', overflow: "auto" }}>
+                    <Timeline.Item label={dayjs().format("YYYY-MM-DD")}>
+                        今天 {this.getDateDelta(0, dayjs(), data.sort(this.dateCmp).filter((item) => item.remark.match("血小板")))}
+                    </Timeline.Item>
+                    {data.sort(this.dateCmp).filter((item) => item.remark.match("血小板")).map((val, i, arr) => (
+                      <Timeline.Item label={dayjs(val.date).format("YYYY-MM-DD")}>
+                          {val.remark} {this.getDateDelta(i + 1, dayjs(val.date), arr)}
+                      </Timeline.Item>
+                    ))}
+                </Timeline>,
+            },
+            {
+                key: '13',
+                label: '白细胞',
+                children: <Timeline mode="left" style={{ paddingRight: "1em", paddingTop: "1em", height: '80vh', overflow: "auto" }}>
+                    <Timeline.Item label={dayjs().format("YYYY-MM-DD")}>
+                        今天 {this.getDateDelta(0, dayjs(), data.sort(this.dateCmp).filter((item) => item.remark.match("升白针")))}
+                    </Timeline.Item>
+                    {data.sort(this.dateCmp).filter((item) => item.remark.match("升白针")).map((val, i, arr) => (
+                      <Timeline.Item label={dayjs(val.date).format("YYYY-MM-DD")}>
+                          {val.remark} {this.getDateDelta(i + 1, dayjs(val.date), arr)}
+                      </Timeline.Item>
+                    ))}
+                </Timeline>,
+            }
+        ];
+
+        const items = [
+            {
+                key: '1',
+                label: '血常规数据',
+                children: <Skeleton active loading={loading}>
+                    <Link to="/input/blood">
+                        <Button style={{ float: "left" }} type="primary">
+                            添加 / 编辑
+                        </Button>
+                    </Link>
+                    <br/><br/>
+                    <Table dataSource={data} columns={columns} scroll={{ x: 1000, y: '60vh' }} sticky />
+                </Skeleton>,
+            },
+            {
+                key: '2',
+                label: '血常规图表',
+                children: <Skeleton active loading={loading}>
+                    <Select defaultValue={0} onChange={this.changeValue} style={{ float: "left", width: 130 }}>
+                        {chartOptions.map((val, i) => (
+                          <Option value={i}>{val.name}</Option>
+                        ))}
+                    </Select><br/>
+                    <Title level={2}>{chartData.name}</Title>
+                    <DateChart data={data} k={chartData.key} range={chartData.range} name={chartData.name} />
+                </Skeleton>,
+            },
+            {
+                key: '3',
+                label: '输细胞间隔',
+                children: <Skeleton active loading={loading}>
+                    <Tabs defaultActiveKey="11" tabPosition="left" items={subItems}/>
+                </Skeleton>,
+            },
+            {
+                key: '4',
+                label: '日常数据',
+                children: <DailyData/>,
+            }
+        ];
+
         if (!Cookie.getValue("username")) {
             return (<Navigate to="/login" />);
         }
@@ -218,78 +303,7 @@ class TablePage extends React.Component {
         // @ts-ignore
         return (
             <div>
-                <Tabs defaultActiveKey="1">
-                    <TabPane tab="血常规数据" key="1"  style={{ height: window.innerHeight - 170, overflow: "auto" }}>
-                        <Skeleton active loading={loading}>
-                            <Link to="/input/blood">
-                                <Button style={{ float: "left" }} type="primary">
-                                    添加 / 编辑
-                                </Button>
-                            </Link>
-                            <br/><br/>
-                            <Table dataSource={data} columns={columns} scroll={{ x: 1000 }} sticky />
-                        </Skeleton>
-                    </TabPane>
-                    <TabPane tab="血常规图表" key="2"  style={{ height: window.innerHeight - 170, overflow: "auto" }}>
-                        <Skeleton active loading={loading}>
-                            <Select defaultValue={0} onChange={this.changeValue} style={{ float: "left", width: 130 }}>
-                                {chartOptions.map((val, i) => (
-                                    <Option value={i}>{val.name}</Option>
-                                ))}
-                            </Select><br/>
-                            <Title level={2}>{chartData.name}</Title>
-                            <DateChart data={data} k={chartData.key} range={chartData.range} name={chartData.name} />
-                        </Skeleton>
-                    </TabPane>
-                    <TabPane tab="输细胞间隔" key="3"  style={{ height: window.innerHeight - 170, overflow: "auto" }}>
-                        <Skeleton active loading={loading}>
-                            <Tabs defaultActiveKey="11" tabPosition="left">
-                                <TabPane tab="血红蛋白" key="11"  style={{ height: window.innerHeight - 170, overflow: "auto" }}>
-                                    <br/>
-                                    <Timeline mode="left" style={{ paddingRight: "1em" }}>
-                                        <Timeline.Item label={dayjs().format("YYYY-MM-DD")}>
-                                            今天 {this.getDateDelta(0, dayjs(), data.sort(this.dateCmp).filter((item) => item.remark.match("血红蛋白")))}
-                                        </Timeline.Item>
-                                        {data.sort(this.dateCmp).filter((item) => item.remark.match("血红蛋白")).map((val, i, arr) => (
-                                            <Timeline.Item label={dayjs(val.date).format("YYYY-MM-DD")}>
-                                                {val.remark} {this.getDateDelta(i + 1, dayjs(val.date), arr)}
-                                            </Timeline.Item>
-                                        ))}
-                                    </Timeline>
-                                </TabPane>
-                                <TabPane tab="血小板" key="12"  style={{ height: window.innerHeight - 170, overflow: "auto" }}>
-                                    <br/>
-                                    <Timeline mode="left" style={{ paddingRight: "1em" }}>
-                                        <Timeline.Item label={dayjs().format("YYYY-MM-DD")}>
-                                            今天 {this.getDateDelta(0, dayjs(), data.sort(this.dateCmp).filter((item) => item.remark.match("血小板")))}
-                                        </Timeline.Item>
-                                        {data.sort(this.dateCmp).filter((item) => item.remark.match("血小板")).map((val, i, arr) => (
-                                            <Timeline.Item label={dayjs(val.date).format("YYYY-MM-DD")}>
-                                                {val.remark} {this.getDateDelta(i + 1, dayjs(val.date), arr)}
-                                            </Timeline.Item>
-                                        ))}
-                                    </Timeline>
-                                </TabPane>
-                                <TabPane tab="白细胞" key="13"  style={{ height: window.innerHeight - 170, overflow: "auto" }}>
-                                    <br/>
-                                    <Timeline mode="left" style={{ paddingRight: "1em" }}>
-                                        <Timeline.Item label={dayjs().format("YYYY-MM-DD")}>
-                                            今天 {this.getDateDelta(0, dayjs(), data.sort(this.dateCmp).filter((item) => item.remark.match("升白针")))}
-                                        </Timeline.Item>
-                                        {data.sort(this.dateCmp).filter((item) => item.remark.match("升白针")).map((val, i, arr) => (
-                                            <Timeline.Item label={dayjs(val.date).format("YYYY-MM-DD")}>
-                                                {val.remark} {this.getDateDelta(i + 1, dayjs(val.date), arr)}
-                                            </Timeline.Item>
-                                        ))}
-                                    </Timeline>
-                                </TabPane>
-                            </Tabs>
-                        </Skeleton>
-                    </TabPane>
-                    <TabPane tab="日常数据" key="4" style={{ height: window.innerHeight - 170, overflow: "auto" }}>
-                        <DailyData />
-                    </TabPane>
-                </Tabs>
+                <Tabs defaultActiveKey="1" items={items}/>
             </div>
         )
     }

@@ -23,7 +23,7 @@ const App: FC = () => {
     useEffect(() => {
         setShow(whitelist.includes(window.location.pathname));
     }, [pathname])
-    
+
     const logout = () => {
         const username: string | null = Cookie.getValue("username");
         if (username) {
@@ -40,7 +40,7 @@ const App: FC = () => {
             })
         }
     }
-    
+
     // const menu = (
     //     <Menu>
     //         <Menu.Item key="add" icon={<PlusOutlined />}>
@@ -71,7 +71,7 @@ const App: FC = () => {
                     </div>
                 </Dropdown>}
             />
-            <Content style={{ padding: "1.5em", paddingTop: "1em", textAlign: "center", height: "90vh" }}>
+            <Content style={{ padding: "1.5em", paddingTop: "1em", textAlign: "center", height: "88vh" }}>
               <Outlet/>
             </Content>
         </div>

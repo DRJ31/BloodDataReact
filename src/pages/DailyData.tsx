@@ -213,7 +213,7 @@ class DailyData extends React.Component {
                     </Link>
                 </Space>
                 <br/><br/>
-                <Table dataSource={this.filterData(data, month)} columns={this.columns} scroll={{ x: 1000 }} sticky/>
+                <Table dataSource={this.filterData(data, month)} columns={this.columns} scroll={{ x: 1000, y: '60vh' }} sticky/>
                 <Modal
                     title="删除确认"
                     okButtonProps={{ danger: true }}
