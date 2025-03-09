@@ -2,9 +2,9 @@ import { Line, LineConfig } from '@ant-design/plots';
 import dayjs from 'dayjs';
 
 function findMax(arr: any, key: any, rangeMax: any) {
-    let max = rangeMax + 10;
+    let max = rangeMax + 1;
     for (let elem of arr) {
-        if (elem[key] > rangeMax) max = elem[key] + 10;
+        if (elem[key] > max) max = elem[key] + 1;
     }
     return max;
 }
@@ -44,11 +44,12 @@ export function DateChart(props: any) {
     data.sort((a: any, b: any) => dayjs(a.date).unix() - dayjs(b.date).unix());
     data.forEach((v: any, i: any) => {
         data[i].date = dayjs(v.date).format('YYYY-MM-DD');
+        data[i].abnormal = data[i][k] < range[0] || data[i][k] > range[1];
+        data[i].color = data[i].abnormal ? "red" : "#2688ff";
     });
 
     const config: LineConfig = {
         data,
-        height: 400,
         xField: 'date',
         yField: k,
         point: {
@@ -56,59 +57,61 @@ export function DateChart(props: any) {
             shape: 'diamond',
         },
         slider: {
-            start: 0.7,
-            end: 1.0,
+            x: {
+                values: [0.7, 1]
+            }
         },
         annotations: [
             {
-                type: 'regionFilter',
-                start: ['min', range[0]],
-                end: ['max', '0'],
-                color: '#F4664A',
+                type: "text",
+                data: [dayjs().format("YYYY-MM-DD"), range[0]],
+                encode: { text: "标准最小值" },
+                style: { fill: "black", textAlign: "right", dy: 10 },
             },
             {
-                type: 'text',
-                position: ['min', range[0]],
-                content: '标准最小值',
-                offsetY: -4,
-                style: { textBaseline: 'bottom' },
-            },
-            {
-                type: 'line',
-                start: ['min', range[0]],
-                end: ['max', range[0]],
+                type: 'lineY',
+                yField: range[0],
                 style: {
                     stroke: '#F4664A',
                     lineDash: [2, 2],
                 },
             },
             {
-                type: 'regionFilter',
-                start: ['min', findMax(data, k, range[1])],
-                end: ['max', range[1]],
-                color: '#F4664A',
+                type: "text",
+                data: [dayjs().format("YYYY-MM-DD"), range[1]],
+                encode: { text: "标准最大值" },
+                style: { fill: "black", textAlign: "right", dy: -10 },
             },
             {
-                type: 'text',
-                position: ['min', range[1] - 1],
-                content: '标准最大值',
-                offsetY: -4,
-                style: { textBaseline: 'bottom' },
-            },
-            {
-                type: 'line',
-                start: ['min', range[1]],
-                end: ['max', range[1]],
+                type: 'lineY',
+                yField: range[1],
                 style: {
                     stroke: '#F4664A',
                     lineDash: [2, 2],
                 },
             },
+            {
+                type: "rangeY",
+                data: [{ y: [0, range[0]] }],
+                yField: 'y',
+                style: {
+                    fill: "red"
+                }
+            },
+            {
+                type: "rangeY",
+                data: [{ y: [range[1], findMax(data, k, range[1])] }],
+                yField: 'y',
+                style: {
+                    fill: "red"
+                }
+            }
         ],
         tooltip: {
-            formatter: (datum: any) => {
-                return { name, value: datum[k] };
-            },
+            items: [
+                { name, field: k, color: "#2688ff" },
+                { name: "指标情况", field: "abnormal", color: "cyan", valueFormatter: (d: boolean) => d ? "异常" : "正常" }
+            ]
         }
     };
 
