@@ -12,16 +12,16 @@ jobs:
           name: Install Dependencies
           command: |
             openssl aes-256-cbc -d -pbkdf2 -in encrypt.ts.enc -out src/encrypt.ts -k $DECRYPT_KEY
-            yarn
+            pnpm install
       - run:
           name: Build Website
           command: pnpm build
       - run:
           name: Deploy
           command: |
-            tar Jcvf build.tar.xz build/
+            tar Jcvf dist.tar.xz dist/
             ssh-keyscan -t rsa -p $PORT $HOST >> ~/.ssh/known_hosts
             ssh-keyscan -t rsa $HOST1 >> ~/.ssh/known_hosts
-            scp -J $USER@$HOST1 -P $PORT build.tar.xz $USER@$HOST:~
+            scp -J $USER@$HOST1 -P $PORT dist.tar.xz $USER@$HOST:~
             ssh $USER@$HOST -p $PORT < deploy.sh
             curl -L https://uich.cc/notify | bash
