@@ -43,7 +43,7 @@ const App: FC = () => {
   const items: MenuProps['items'] = [
     { label: <Link to="/input/daily">添加日常数据</Link>, key: "add", icon: <PlusOutlined /> },
     { label: <Link to="/input/blood">血常规数据编辑</Link>, key: "edit", icon: <EditOutlined /> },
-    { label: <span onClick={logout}>退出</span>, key: "logout", icon: <LogoutOutlined /> },
+    { label: <span style={{ fontWeight: 500 }} onClick={logout}>退出</span>, key: "logout", icon: <LogoutOutlined /> },
   ]
 
   return (
