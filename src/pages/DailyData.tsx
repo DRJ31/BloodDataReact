@@ -1,6 +1,6 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { message, Skeleton, Table, Space, Button, Modal, DatePicker } from 'antd';
+import { Button, DatePicker, message, Modal, Skeleton, Space, Table } from 'antd';
 import dayjs, { Dayjs } from "dayjs";
 import { renderData } from './MainTable';
 import { Link } from 'react-router-dom';
@@ -20,31 +20,18 @@ interface DailyRecord {
     time: string
 }
 
-interface IState {
-    data: DailyRecord[],
-    month: string,
-    loading: boolean,
-    visible: boolean,
-    current: DailyRecord | null,
-    show: boolean
-}
+const DailyData = () => {
+    // States
+    const [data, setData] = useState<DailyRecord[]>([]);
+    const [month, setMonth] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [skLoading, setSkLoading] = useState(false);
+    const [visible, setVisible] = useState(false);
+    const [current, setCurrent] = useState<DailyRecord | null>(null);
+    const [show, setShow] = useState(false);
 
-class DailyData extends React.Component {
-    state: IState = {
-        data: [],
-        month: "",
-        loading: false,
-        visible: false,
-        current: null,
-        show: false
-    }
-
-    componentDidMount() {
-        this.setState({ loading: true });
-        this.fetchData();
-    }
-
-    columns = [
+    // Constants
+    const columns = [
         {
             title: '时间',
             dataIndex: 'time',
@@ -73,11 +60,11 @@ class DailyData extends React.Component {
             width: 100,
             key: 'blood_pressure',
             render: (_text: string, record: DailyRecord) => (
-                <div>
-                    {renderData(record.pressure_high, [90, 120])}
-                    /
-                    {renderData(record.pressure_low, [60, 90])}
-                </div>
+              <div>
+                  {renderData(record.pressure_high, [90, 120])}
+                  /
+                  {renderData(record.pressure_low, [60, 90])}
+              </div>
             )
         },
         {
@@ -98,50 +85,52 @@ class DailyData extends React.Component {
             key: 'action',
             width: 130,
             render: (_text: string, record: DailyRecord) => (
-                <Space size="small">
-                    <Button
-                        type="text"
-                        onClick={() => this.showEditModal(record)}
-                    >编辑</Button>
-                    <Button
-                        type="text"
-                        style={{ color: "red" }}
-                        onClick={() => this.showDeleteModal(record)}
-                    >删除</Button>
-                </Space>
+              <Space size="small">
+                  <Button
+                    type="text"
+                    onClick={() => showEditModal(record)}
+                  >编辑</Button>
+                  <Button
+                    type="text"
+                    style={{ color: "red" }}
+                    onClick={() => showDeleteModal(record)}
+                  >删除</Button>
+              </Space>
             )
         }
     ];
 
-    fetchData = () => {
+    // Functions
+    const fetchData = () => {
         axios.get("/api/daily")
-            .then(response => {
-                this.setState({
-                    loading: false,
-                    data: response.data.data
-                })
-            })
-            .catch(err => {
-                this.setState({ loading: false });
-                if (err.response) {
-                    message.warning(err.response.data.message);
-                }
-            });
+          .then(response => {
+              setSkLoading(false);
+              setData(response.data.data);
+          })
+          .catch(err => {
+              setSkLoading(false);
+              if (err.response) {
+                  message.warning(err.response.data.message);
+              }
+          });
     }
 
-    disabledDate: RangePickerProps["disabledDate"] = (current) => {
+    const disabledDate: RangePickerProps["disabledDate"] = (current) => {
         return current > dayjs().endOf('day');
     }
 
-    changeDate = (_date: Dayjs | null | undefined, dateString: string | string[]) => {
-        this.setState({ month: dateString })
+    const changeDate = (_date: Dayjs | null | undefined, dateString: string | string[]) => {
+        if (typeof dateString === 'string') {
+            setMonth(dateString);
+        }
     }
 
-    showDeleteModal = (current: DailyRecord) => {
-        this.setState({ visible: true, current });
+    const showDeleteModal = (cur: DailyRecord) => {
+        setCurrent(cur);
+        setVisible(true);
     }
 
-    filterData = (data: DailyRecord[], month: string) => {
+    const filterData = (data: DailyRecord[], month: string) => {
         if (month.length > 0) {
             const nextMonth = dayjs(month).add(dayjs.duration({ months: 1 }))
             return data.filter(item => dayjs(item.time) >= dayjs(month) && dayjs(item.time) < nextMonth)
@@ -149,39 +138,42 @@ class DailyData extends React.Component {
         return data;
     }
 
-    deleteData = (id: number | undefined) => {
+    const deleteData = (id: number | undefined) => {
         if (typeof id === "undefined") {
             message.error("尚未选定项目");
             return;
         }
-        this.setState({ loading: true });
+        setLoading(true);
         axios.delete(`/api/daily?id=${id}`)
-            .then(response => {
-                this.setState({ visible: false });
-                this.fetchData();
-                message.success(response.data.message);
-            })
-            .catch(err => {
-                this.setState({ loading: false, visible: false });
-                if (err.response) {
-                    message.warning(err.response.message);
-                }
-            })
+          .then(response => {
+              setLoading(false);
+              setVisible(false);
+              setSkLoading(true);
+              fetchData();
+              message.success(response.data.message);
+          })
+          .catch(err => {
+              setLoading(false);
+              setVisible(false);
+              if (err.response) {
+                  message.warning(err.response.message);
+              }
+          })
     }
 
-    updateData = (values: any) => {
-        const { current } = this.state;
-
-        this.setState({ loading: true });
+    const updateData = (values: any) => {
+        setLoading(true);
         axios.put("/api/daily", {
             id: current?.id,
             data: values
         }).then(response => {
-            this.setState({ loading: false, show: false });
+            setLoading(false);
+            setShow(false);
+            setSkLoading(true);
             message.success(response.data.message);
-            this.fetchData();
+            fetchData();
         }).catch(err => {
-            this.setState({ loading: false });
+            setLoading(false);
             if (err.response && err.response.status) {
                 message.warning(err.response.data.message);
             } else {
@@ -190,52 +182,54 @@ class DailyData extends React.Component {
         })
     }
 
-    showEditModal = (record: DailyRecord) => {
-        this.setState({ current: record, show: true })
+    const showEditModal = (record: DailyRecord) => {
+        setCurrent(record);
+        setShow(true);
     }
 
-    render() {
-        const { data, loading, month, current, visible, show } = this.state;
+    useEffect(() => {
+        setSkLoading(true);
+        fetchData();
+    }, []);
 
-        return (
-            <Skeleton active loading={loading}>
-                <Space size="middle" style={{ float: "left" }}>
-                    <DatePicker
-                        picker="month"
-                        onChange={this.changeDate}
-                        disabledDate={this.disabledDate}
-                        style={{ float: "left" }}
-                    />
-                    <Link to="/input/daily">
-                        <Button type="primary">
-                            <PlusOutlined/> 添加
-                        </Button>
-                    </Link>
-                </Space>
-                <br/><br/>
-                <Table dataSource={this.filterData(data, month)} columns={this.columns} scroll={{ x: 1000, y: '60vh' }} sticky/>
-                <Modal
-                    title="删除确认"
-                    okButtonProps={{ danger: true }}
-                    okText="删除"
-                    cancelText="取消"
-                    confirmLoading={loading}
-                    open={visible}
-                    onCancel={() => this.setState({ visible: false })}
-                    onOk={() => this.deleteData(current?.id)}
-                >
-                    确认删除 <b>{dayjs(current?.time).format("YYYY-MM-DD HH:mm")}</b> 的记录吗？
-                </Modal>
-                <EditDailyForm
-                    open={show}
-                    setVisible={(bool: boolean) => this.setState({ show: bool })}
-                    onFinish={(values: any) => this.updateData(values)}
-                    loading={loading}
-                    current={current}
-                />
-            </Skeleton>
-        );
-    }
+    return (
+      <Skeleton active loading={skLoading}>
+          <Space size="middle" style={{ float: "left" }}>
+              <DatePicker
+                picker="month"
+                onChange={changeDate}
+                disabledDate={disabledDate}
+                style={{ float: "left" }}
+              />
+              <Link to="/input/daily">
+                  <Button type="primary">
+                      <PlusOutlined/> 添加
+                  </Button>
+              </Link>
+          </Space>
+          <br/><br/>
+          <Table dataSource={filterData(data, month)} columns={columns} scroll={{ x: 1000, y: '60vh' }} sticky/>
+          <Modal
+            title="删除确认"
+            okButtonProps={{ danger: true }}
+            okText="删除"
+            cancelText="取消"
+            confirmLoading={loading}
+            open={visible}
+            onCancel={() => setVisible(false)}
+            onOk={() => deleteData(current?.id)}
+          >
+              确认删除 <b>{dayjs(current?.time).format("YYYY-MM-DD HH:mm")}</b> 的记录吗？
+          </Modal>
+          <EditDailyForm
+            open={show}
+            setOpen={(bool: boolean) => setShow(bool)}
+            onFinish={(values: any) => updateData(values)}
+            loading={loading}
+            current={current}
+          />
+      </Skeleton>
+    );
 }
 
 export default DailyData;

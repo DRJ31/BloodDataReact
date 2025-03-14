@@ -1,5 +1,6 @@
 import {Form, Input, Modal} from "antd";
 import axios from "axios";
+import { useEffect } from "react";
 
 axios.defaults.withCredentials = true;
 
@@ -9,25 +10,27 @@ const layout = {
 }
 
 const EditDailyForm = (props: any) => {
-    const { visible, onFinish, setVisible, loading, current } = props;
+    const { open, onFinish, setOpen, loading, current } = props;
     const [form] = Form.useForm();
-    form.setFieldsValue({
-        temperature: current?.temperature,
-        oxygen: current?.oxygen,
-        pressure_high: current?.pressure_high,
-        pressure_low: current?.pressure_low,
-        heart_rate: current?.heart_rate,
-        weight: current?.weight === 0 ? "" : current?.weight
-    });
+    useEffect(() => {
+        form.setFieldsValue({
+            temperature: current?.temperature,
+            oxygen: current?.oxygen,
+            pressure_high: current?.pressure_high,
+            pressure_low: current?.pressure_low,
+            heart_rate: current?.heart_rate,
+            weight: current?.weight === 0 ? "" : current?.weight
+        });
+    }, [current]);
 
     return (
         <Modal
             title="编辑记录"
             okText="更新"
             cancelText="取消"
-            open={visible}
+            open={open}
             confirmLoading={loading}
-            onCancel={() => setVisible(false)}
+            onCancel={() => setOpen(false)}
             onOk={form.submit}
         >
             <Form {...layout} form={form} onFinish={onFinish}>
