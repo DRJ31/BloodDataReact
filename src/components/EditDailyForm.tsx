@@ -21,6 +21,7 @@ const EditDailyForm = (props: any) => {
             heart_rate: current?.heart_rate,
             weight: current?.weight === 0 ? "" : current?.weight
         });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [current]);
 
     return (
