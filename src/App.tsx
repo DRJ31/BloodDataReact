@@ -47,8 +47,8 @@ const App: FC = () => {
 
   return (
     <Layout>
-      <Layout.Header style={{ backgroundColor: "#003a8c", display: "flex", alignItems: "center" }}>
-        <div style={{ fontWeight: 600, fontSize: "1.5em", textAlign: "left" }}>
+      <Layout.Header style={{ backgroundColor: "#003a8c", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 24px" }}>
+        <div style={{ fontWeight: 600, fontSize: "1.5em" }}>
           <Link to="/" style={{ color: "white", textDecoration: "none" }}>Blood Data</Link>
         </div>
         {show && <Dropdown menu={{ items }} trigger={['click', 'hover']}>
