@@ -12,7 +12,6 @@ import DailyData from "./DailyData";
 axios.defaults.withCredentials = true;
 
 const { Title } = Typography;
-const { Option } = Select;
 
 dayjs.extend(duration)
 
@@ -42,14 +41,14 @@ export function renderData(data: string | number, range: [number, number]) {
     if (typeof data == "number" && data < range[0]) {
         return <Statistic
                     value={data}
-                    valueStyle={{ color: "#cf1322", fontSize: "14px" }}
+                    styles={{ content: { color: "#cf1322", fontSize: "14px" } }}
                     suffix={<ArrowDownOutlined />}
                 />;
     }
     else if (typeof data == "number" && data > range[1]) {
         return <Statistic
                     value={data}
-                    valueStyle={{ color: "#cf1322", fontSize: "14px" }}
+                    styles={{ content: { color: "#cf1322", fontSize: "14px" } }}
                     suffix={<ArrowUpOutlined />}
                 />;
     }
@@ -189,44 +188,41 @@ const TablePage = () => {
         {
             key: '11',
             label: '血红蛋白',
-            children: <Timeline mode="left" style={{ paddingRight: "1em", paddingTop: "1em", height: '80vh', overflow: "auto" }}>
-                <Timeline.Item label={dayjs().format("YYYY-MM-DD")}>
-                    今天 {getDateDelta(0, dayjs(), data.sort(dateCmp).filter((item) => item.remark.match("血红蛋白")))}
-                </Timeline.Item>
-                {data.sort(dateCmp).filter((item) => item.remark.match("血红蛋白")).map((val, i, arr) => (
-                  <Timeline.Item label={dayjs(val.date).format("YYYY-MM-DD")}>
-                      {val.remark} {getDateDelta(i + 1, dayjs(val.date), arr)}
-                  </Timeline.Item>
-                ))}
-            </Timeline>,
+            children: <Timeline mode="left" style={{ paddingRight: "1em", paddingTop: "1em", height: '80vh', overflow: "auto" }}
+                items={[
+                    { label: dayjs().format("YYYY-MM-DD"), children: <>今天 {getDateDelta(0, dayjs(), data.sort(dateCmp).filter((item) => item.remark.match("血红蛋白")))}</> },
+                    ...data.sort(dateCmp).filter((item) => item.remark.match("血红蛋白")).map((val, i, arr) => ({
+                        label: dayjs(val.date).format("YYYY-MM-DD"),
+                        children: <>{val.remark} {getDateDelta(i + 1, dayjs(val.date), arr)}</>
+                    }))
+                ]}
+            />,
         },
         {
             key: '12',
             label: '血小板',
-            children: <Timeline mode="left" style={{ paddingRight: "1em", paddingTop: "1em", height: '80vh', overflow: "auto" }}>
-                <Timeline.Item label={dayjs().format("YYYY-MM-DD")}>
-                    今天 {getDateDelta(0, dayjs(), data.sort(dateCmp).filter((item) => item.remark.match("血小板")))}
-                </Timeline.Item>
-                {data.sort(dateCmp).filter((item) => item.remark.match("血小板")).map((val, i, arr) => (
-                  <Timeline.Item label={dayjs(val.date).format("YYYY-MM-DD")}>
-                      {val.remark} {getDateDelta(i + 1, dayjs(val.date), arr)}
-                  </Timeline.Item>
-                ))}
-            </Timeline>,
+            children: <Timeline mode="left" style={{ paddingRight: "1em", paddingTop: "1em", height: '80vh', overflow: "auto" }}
+                items={[
+                    { label: dayjs().format("YYYY-MM-DD"), children: <>今天 {getDateDelta(0, dayjs(), data.sort(dateCmp).filter((item) => item.remark.match("血小板")))}</> },
+                    ...data.sort(dateCmp).filter((item) => item.remark.match("血小板")).map((val, i, arr) => ({
+                        label: dayjs(val.date).format("YYYY-MM-DD"),
+                        children: <>{val.remark} {getDateDelta(i + 1, dayjs(val.date), arr)}</>
+                    }))
+                ]}
+            />,
         },
         {
             key: '13',
             label: '白细胞',
-            children: <Timeline mode="left" style={{ paddingRight: "1em", paddingTop: "1em", height: '80vh', overflow: "auto" }}>
-                <Timeline.Item label={dayjs().format("YYYY-MM-DD")}>
-                    今天 {getDateDelta(0, dayjs(), data.sort(dateCmp).filter((item) => item.remark.match("升白针")))}
-                </Timeline.Item>
-                {data.sort(dateCmp).filter((item) => item.remark.match("升白针")).map((val, i, arr) => (
-                  <Timeline.Item label={dayjs(val.date).format("YYYY-MM-DD")}>
-                      {val.remark} {getDateDelta(i + 1, dayjs(val.date), arr)}
-                  </Timeline.Item>
-                ))}
-            </Timeline>,
+            children: <Timeline mode="left" style={{ paddingRight: "1em", paddingTop: "1em", height: '80vh', overflow: "auto" }}
+                items={[
+                    { label: dayjs().format("YYYY-MM-DD"), children: <>今天 {getDateDelta(0, dayjs(), data.sort(dateCmp).filter((item) => item.remark.match("升白针")))}</> },
+                    ...data.sort(dateCmp).filter((item) => item.remark.match("升白针")).map((val, i, arr) => ({
+                        label: dayjs(val.date).format("YYYY-MM-DD"),
+                        children: <>{val.remark} {getDateDelta(i + 1, dayjs(val.date), arr)}</>
+                    }))
+                ]}
+            />,
         }
     ];
 
@@ -248,11 +244,12 @@ const TablePage = () => {
             key: '2',
             label: '血常规图表',
             children: <Skeleton active loading={loading}>
-                <Select defaultValue={0} onChange={changeValue} style={{ float: "left", width: 130 }}>
-                    {chartOptions.map((val, i) => (
-                      <Option value={i}>{val.name}</Option>
-                    ))}
-                </Select><br/>
+                <Select
+                    defaultValue={0}
+                    onChange={changeValue}
+                    style={{ float: "left", width: 130 }}
+                    options={chartOptions.map((val, i) => ({ value: i, label: val.name }))}
+                /><br/>
                 <Title level={2}>{chartData.name}</Title>
                 <DateChart data={data} k={chartData.key} range={chartData.range} name={chartData.name} />
             </Skeleton>,

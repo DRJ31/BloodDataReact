@@ -6,7 +6,6 @@ import {
   Link,
 } from 'react-router-dom';
 import { Layout, Dropdown, message, MenuProps } from 'antd';
-import { PageHeader } from "@ant-design/pro-components";
 import { UserOutlined, EditOutlined, LogoutOutlined, DownOutlined, PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import './App.css';
@@ -47,20 +46,21 @@ const App: FC = () => {
   ]
 
   return (
-    <div className="app">
-      <PageHeader
-        title={<Link to="/" style={{ color: "white", textDecoration: "none" }}>Blood Data</Link>}
-        style={{ backgroundColor: "#003a8c" }}
-        extra={show && <Dropdown menu={{ items }} trigger={['click', 'hover']}>
-          <div style={{ fontSize: "1.5em", color: "white", float: "right" }}>
+    <Layout>
+      <Layout.Header style={{ backgroundColor: "#003a8c", display: "flex", alignItems: "center" }}>
+        <div style={{ fontWeight: 600, fontSize: "1.5em", textAlign: "left" }}>
+          <Link to="/" style={{ color: "white", textDecoration: "none" }}>Blood Data</Link>
+        </div>
+        {show && <Dropdown menu={{ items }} trigger={['click', 'hover']}>
+          <div style={{ fontSize: "1.5em", color: "white" }}>
             <UserOutlined /> <DownOutlined />
           </div>
         </Dropdown>}
-      />
+      </Layout.Header>
       <Content style={{ padding: "1.5em", paddingTop: "1em", textAlign: "center", height: "88vh" }}>
         <Outlet/>
       </Content>
-    </div>
+    </Layout>
   );
 }
 export default App;

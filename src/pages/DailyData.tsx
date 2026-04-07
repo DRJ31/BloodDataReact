@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Button, DatePicker, message, Modal, Skeleton, Space, Table } from 'antd';
+import type { DatePickerProps } from 'antd';
 import dayjs, { Dayjs } from "dayjs";
 import { renderData } from './MainTable';
 import { Link } from 'react-router-dom';
 import { PlusOutlined } from '@ant-design/icons';
 import EditDailyForm from "../components/EditDailyForm";
-import { RangePickerProps } from "antd/es/date-picker";
 
 interface DailyRecord {
     id: number,
@@ -115,11 +115,11 @@ const DailyData = () => {
           });
     }
 
-    const disabledDate: RangePickerProps["disabledDate"] = (current) => {
+    const disabledDate: DatePickerProps['disabledDate'] = (current) => {
         return current > dayjs().endOf('day');
     }
 
-    const changeDate = (_date: Dayjs | null | undefined, dateString: string | string[]) => {
+    const changeDate = (_date: Dayjs | null | undefined, dateString: string | null) => {
         if (typeof dateString === 'string') {
             setMonth(dateString);
         }

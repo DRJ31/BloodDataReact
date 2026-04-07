@@ -1,4 +1,5 @@
 import { Form, Input, Button, message, Spin, Space, DatePicker } from 'antd';
+import type { DatePickerProps } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
@@ -6,7 +7,6 @@ import dayjs, { Dayjs } from 'dayjs';
 import axios from 'axios';
 import * as Cookie from "../cookie";
 import { Link } from 'react-router-dom';
-import { RangePickerProps } from "antd/es/date-picker";
 
 axios.defaults.withCredentials = true;
 
@@ -34,7 +34,7 @@ const FormPage = () => {
             navigate("/login");
         });
 
-    const disabledDate: RangePickerProps["disabledDate"] = (current) => {
+    const disabledDate: DatePickerProps['disabledDate'] = (current) => {
         return current && current > dayjs().endOf('day');
     }
 
@@ -59,7 +59,7 @@ const FormPage = () => {
             });
     }
 
-    const fetchData = (date: Dayjs | null | undefined, dateString: string | string[]) => {
+    const fetchData = (date: Dayjs | null | undefined, dateString: string | null) => {
         setSpin(true);
         axios.get(`/api/blood/date?date=${dateString}`)
             .then(response => {
@@ -103,7 +103,7 @@ const FormPage = () => {
     }
 
     return (
-        <Spin tip="加载中..." indicator={SpinIcon} spinning={spin}>
+        <Spin description="加载中..." indicator={SpinIcon} spinning={spin}>
             <Form {...layout} form={form} onFinish={onFinish}>
                 <Form.Item name="date" label="日期" rules={[{ required: true, message: "请选择日期" }]}>
                     <DatePicker
