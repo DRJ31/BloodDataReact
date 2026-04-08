@@ -145,36 +145,19 @@ export function DateChart({ data, k, range, name: titleName }: DateChartProps) {
         interaction: {
             tooltip: {
                 render: (_ev: unknown, { title, items }: TooltipParam) => {
-                    const list = items.filter((item: TooltipItem) => item.name === k)
-                    return (
-                      <div key={title}>
-                          <h4>{title}</h4>
-                          {list.map((item: TooltipItem) => {
-                              const { value } = item;
-                              console.log(item)
-                              return (
-                                <div>
-                                    <div style={{ margin: 0, display: 'flex', justifyContent: 'space-between' }}>
-                                        <div>
-                        <span
-                          style={{
-                              display: 'inline-block',
-                              width: 6,
-                              height: 6,
-                              borderRadius: '50%',
-                              backgroundColor: (value as number) < range[0] || (value as number) > range[1] ? "red" : "#2688ff",
-                              marginRight: 6,
-                          }}
-                        ></span>
-                                            <span>{titleName}</span>
-                                        </div>
-                                        <b>{value}</b>
-                                    </div>
-                                </div>
-                              );
-                          })}
-                      </div>
-                    );
+                    const list = items.filter((item: TooltipItem) => item.name === k);
+                    const rows = list.map((item: TooltipItem) => {
+                        const { value } = item;
+                        const color = (value as number) < range[0] || (value as number) > range[1] ? 'red' : '#2688ff';
+                        return `<div style="margin:0;display:flex;justify-content:space-between;gap:12px">
+                            <div>
+                                <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background-color:${color};margin-right:6px"></span>
+                                <span>${titleName}</span>
+                            </div>
+                            <b>${value}</b>
+                        </div>`;
+                    }).join('');
+                    return `<div><h4 style="margin:0 0 4px">${title}</h4>${rows}</div>`;
                 }
             }
         }
