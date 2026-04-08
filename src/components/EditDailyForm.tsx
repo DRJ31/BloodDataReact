@@ -9,7 +9,36 @@ const layout = {
     wrapperCol: { span: 18 }
 }
 
-const EditDailyForm = (props: any) => {
+export interface DailyFormValues {
+    temperature: string;
+    oxygen: string;
+    pressure_high: string;
+    pressure_low: string;
+    heart_rate: string;
+    weight?: string;
+}
+
+interface DailyRecord {
+    id?: number;
+    uid?: number;
+    temperature: number;
+    oxygen: number;
+    pressure_high: number;
+    pressure_low: number;
+    heart_rate: number;
+    weight?: number;
+    time?: string;
+}
+
+interface EditDailyFormProps {
+    open: boolean;
+    onFinish: (values: DailyFormValues) => void;
+    setOpen: (bool: boolean) => void;
+    loading: boolean;
+    current: DailyRecord | null;
+}
+
+const EditDailyForm = (props: EditDailyFormProps) => {
     const { open, onFinish, setOpen, loading, current } = props;
     const [form] = Form.useForm();
     useEffect(() => {

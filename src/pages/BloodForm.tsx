@@ -17,6 +17,18 @@ const layout = {
 
 const SpinIcon = <LoadingOutlined spin style={{ fontSize: 24 }}/>
 
+interface BloodFormValues {
+    date: Dayjs;
+    leukocyte: string;
+    hemoglobin: string;
+    platelets: string;
+    monocyte: string;
+    monocyteP: string;
+    neutrophil: string;
+    reticulocyte?: string;
+    remark?: string;
+}
+
 const FormPage = () => {
     const [loading, setLoading] = useState(false);
     const [dates, setDates] = useState([""])
@@ -77,7 +89,7 @@ const FormPage = () => {
             });
     }
 
-    const onFinish = (values: any) => {
+    const onFinish = (values: BloodFormValues) => {
         setLoading(true);
         axios.post("/api/blood", {
             data: values

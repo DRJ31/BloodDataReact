@@ -1,10 +1,22 @@
 import { Line, LineConfig } from '@ant-design/plots';
 import dayjs from 'dayjs';
 
-function findMax(arr: any, key: string, rangeMax: number) {
+interface ChartDataItem {
+    date: string;
+    [key: string]: number | string;
+}
+
+interface DateChartProps {
+    data: ChartDataItem[];
+    k: string;
+    range: [number, number];
+    name: string;
+}
+
+function findMax(arr: ChartDataItem[], key: string, rangeMax: number) {
     let max = rangeMax + 1;
     for (const elem of arr) {
-        if (elem[key] > max) max = elem[key] + 1;
+        if ((elem[key] as number) > max) max = (elem[key] as number) + 1;
     }
     return max;
 }
@@ -50,10 +62,9 @@ interface TooltipParam {
 //     return <Line {...config} />
 // }
 
-export function DateChart(props: any) {
-    const { data, k, range, name: titleName } = props;
-    data.sort((a: any, b: any) => dayjs(a.date).unix() - dayjs(b.date).unix());
-    data.forEach((v: any, i: number) => {
+export function DateChart({ data, k, range, name: titleName }: DateChartProps) {
+    data.sort((a, b) => dayjs(a.date).unix() - dayjs(b.date).unix());
+    data.forEach((v, i) => {
         data[i].date = dayjs(v.date).format('YYYY-MM-DD');
     });
 
@@ -133,12 +144,12 @@ export function DateChart(props: any) {
         },
         interaction: {
             tooltip: {
-                render: (_ev: any, { title, items }: TooltipParam) => {
+                render: (_ev: unknown, { title, items }: TooltipParam) => {
                     const list = items.filter((item: TooltipItem) => item.name === k)
                     return (
                       <div key={title}>
                           <h4>{title}</h4>
-                          {list.map((item: any) => {
+                          {list.map((item: TooltipItem) => {
                               const { value } = item;
                               console.log(item)
                               return (
@@ -151,7 +162,7 @@ export function DateChart(props: any) {
                               width: 6,
                               height: 6,
                               borderRadius: '50%',
-                              backgroundColor: value < range[0] || value > range[1] ? "red" : "#2688ff",
+                              backgroundColor: (value as number) < range[0] || (value as number) > range[1] ? "red" : "#2688ff",
                               marginRight: 6,
                           }}
                         ></span>

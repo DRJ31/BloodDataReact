@@ -15,6 +15,16 @@ const layout = {
 
 const SpinIcon = <LoadingOutlined spin style={{ fontSize: 24 }} />
 
+interface DailyFormValues {
+    temperature: string;
+    oxygen: string;
+    pressure_high: string;
+    pressure_low: string;
+    heart_rate: string;
+    weight?: string;
+    time?: string;
+}
+
 const DailyForm = () => {
     const [loading, setLoading] = useState(false);
     const [visible, setVisible] = useState(false);
@@ -33,7 +43,7 @@ const DailyForm = () => {
             navigate("/login");
         });
 
-    const onFinish = (values: any) => {
+    const onFinish = (values: DailyFormValues) => {
         setLoading(true);
         values["time"] = dayjs().format("YYYY-MM-DD HH:mm:ss")
         axios.post("/api/daily", {
@@ -78,7 +88,7 @@ const DailyForm = () => {
     }
 
     return (
-        <Spin tip="加载中..." indicator={SpinIcon} spinning={spin}>
+        <Spin description="加载中..." indicator={SpinIcon} spinning={spin}>
             <Form {...layout} form={form} onFinish={onFinish}>
                 <Form.Item name="temperature" label="体温" rules={[{ required: true, message: "请输入体温" }]}>
                     <Input />

@@ -3,10 +3,10 @@ import axios from 'axios';
 import { Button, DatePicker, message, Modal, Skeleton, Space, Table } from 'antd';
 import type { DatePickerProps } from 'antd';
 import dayjs, { Dayjs } from "dayjs";
-import { renderData } from './MainTable';
+import { renderData } from '../components/renderData';
 import { Link } from 'react-router-dom';
 import { PlusOutlined } from '@ant-design/icons';
-import EditDailyForm from "../components/EditDailyForm";
+import EditDailyForm, { DailyFormValues } from "../components/EditDailyForm";
 
 interface DailyRecord {
     id: number,
@@ -161,7 +161,7 @@ const DailyData = () => {
           })
     }
 
-    const updateData = (values: any) => {
+    const updateData = (values: DailyFormValues) => {
         setLoading(true);
         axios.put("/api/daily", {
             id: current?.id,
@@ -224,7 +224,7 @@ const DailyData = () => {
           <EditDailyForm
             open={show}
             setOpen={(bool: boolean) => setShow(bool)}
-            onFinish={(values: any) => updateData(values)}
+            onFinish={updateData}
             loading={loading}
             current={current}
           />

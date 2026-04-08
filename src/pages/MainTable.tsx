@@ -1,11 +1,11 @@
-import {Table, Tabs, message, Skeleton, Statistic, Typography, Select, Timeline, Button} from "antd";
+import {Table, Tabs, message, Skeleton, Typography, Select, Timeline, Button} from "antd";
 import { Navigate, Link } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import dayjs, {Dayjs} from 'dayjs';
 import duration from 'dayjs/plugin/duration'
-import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
 import { DateChart } from '../components/DateChart';
+import { renderData } from '../components/renderData';
 import * as Cookie from "../cookie";
 import DailyData from "./DailyData";
 
@@ -33,27 +33,9 @@ interface BloodData {
     neutrophil: number;
     reticulocyte: string;
     remark: string;
+    [key: string]: number | string;
 }
 
-export function renderData(data: string | number, range: [number, number]) {
-    if (typeof data == "string" && data.length === 0)
-        return "";
-    if (typeof data == "number" && data < range[0]) {
-        return <Statistic
-                    value={data}
-                    styles={{ content: { color: "#cf1322", fontSize: "14px" } }}
-                    suffix={<ArrowDownOutlined />}
-                />;
-    }
-    else if (typeof data == "number" && data > range[1]) {
-        return <Statistic
-                    value={data}
-                    styles={{ content: { color: "#cf1322", fontSize: "14px" } }}
-                    suffix={<ArrowUpOutlined />}
-                />;
-    }
-    return data;
-}
 
 const chartOptions: ChartData[] = [
     {
@@ -258,7 +240,7 @@ const TablePage = () => {
             key: '3',
             label: '输细胞间隔',
             children: <Skeleton active loading={loading}>
-                <Tabs defaultActiveKey="11" tabPosition="left" items={subItems}/>
+                <Tabs defaultActiveKey="11" tabPlacement="start" items={subItems}/>
             </Skeleton>,
         },
         {

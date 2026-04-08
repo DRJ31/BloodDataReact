@@ -6,7 +6,7 @@ import * as Cookie from "../cookie";
 import { useNavigate } from "react-router-dom";
 
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = process.env.NODE_ENV === "development" ? "http://localhost:5004" : "";
+axios.defaults.baseURL = import.meta.env.DEV ? "http://localhost:5004" : "";
 
 const layout = {
     labelCol: { xs: 6, md: 8 },
@@ -16,11 +16,16 @@ const tailLayout = {
     wrapperCol: { span: 24 },
 };
 
+interface LoginValues {
+    username: string;
+    password: string;
+}
+
 const LoginPage = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    const onFinish = (values: any) => {
+    const onFinish = (values: LoginValues) => {
         const { username, password } = values;
 
         setLoading(true);
@@ -43,8 +48,8 @@ const LoginPage = () => {
         })
     }
 
-    const onFinishFailed = (err: any) => {
-        message.error("Failed: ", err);
+    const onFinishFailed = (err: { errorFields: { name: (string | number)[]; errors: string[] }[] }) => {
+        message.error("Failed: " + err.errorFields.flatMap(f => f.errors).join(", "));
     }
 
     if (Cookie.getValue("username")) {
