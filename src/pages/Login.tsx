@@ -59,7 +59,7 @@ const LoginPage = () => {
     return (
         <Row align="middle" style={{ height: "90%" }}>
             <Col sm={24} xs={24}>
-                <img src="/vite.svg" className="App-logo" alt="logo" style={{ width: 100, height: 100 }} />
+                <img src={`${import.meta.env.BASE_URL}vite.svg`} className="App-logo" alt="logo" style={{ width: 100, height: 100 }} />
                 <Form
                     {...layout}
                     name="Login"
